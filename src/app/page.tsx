@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import Calculator from '@/components/Calculator';
 import MatchCard from '@/components/MatchCard';
@@ -9,7 +10,7 @@ import TrustBlock from '@/components/TrustBlock';
 import matches from '@/data/matches.json';
 
 export const metadata: Metadata = {
-  title: 'BetFactor Kenya — Stop Leaving Money on the Table Every Time You Bet',
+  title: 'BetFactor Kenya — Become Every Bookmaker\'s Worst Nightmare',
   description:
     'BetFactor scans odds across SportPesa, Betika, Mozzart, SportyBet, and 1xBet in real time. Calculate exact M-Pesa net payouts after Kenya 5% withholding tax & M-Pesa fees.',
 };
@@ -19,105 +20,163 @@ export default function HomePage() {
 
   return (
     <>
-      {/* 1. Live Ticker & Hero Section */}
+      {/* Live Ticker */}
       <OddsTicker />
 
-      <section className="hero" aria-labelledby="hero-headline">
+      {/* Hero Section — BetBurger Inspired */}
+      <section className="hero-bb" aria-labelledby="hero-headline">
         <div className="hero-glow" aria-hidden="true" />
         <div className="container">
-          <div className="hero-content">
-            <div className="hero-badge">🇰🇪 Scan 5 Bookmakers · Real Time</div>
-            <h1 id="hero-headline" className="hero-title">
-              Stop Leaving Money on the Table{' '}
-              <span className="hero-accent">Every Time</span> You Bet
-            </h1>
-            <p className="hero-subtitle">
-              BetFactor scans odds across <strong>SportPesa, Betika, Mozzart, SportyBet</strong> and <strong>1xBet</strong> in real time — so you always know exactly where the best price is, and exactly what you'll actually take home after tax and M-Pesa fees.
-            </p>
+          <div className="hero-bb-grid">
+            {/* Hero Left Content */}
+            <div className="hero-bb-content">
+              <div className="hero-tag-badge">
+                🔥 BECOME EVERY BOOKMAKER'S WORST NIGHTMARE
+              </div>
+              <h1 id="hero-headline" className="hero-title-bb">
+                Beat the Odds.{' '}
+                <span className="hero-accent-bb">Walk Away With More Money</span> Every Time.
+              </h1>
+              <p className="hero-subtitle-bb">
+                BetFactor scans odds across <strong>SportPesa, Betika, Mozzart, SportyBet</strong> and <strong>1xBet</strong> in real time — so you always know where the best price is, and exactly what you'll take home after 5% tax and M-Pesa fees.
+              </p>
 
-            <div className="hero-actions">
-              <Link href="/#calculator" className="hero-btn-primary">
-                Get Free Access →
-              </Link>
-              <Link href="#how-it-works-section" className="hero-btn-secondary">
-                See how it works ↓
-              </Link>
+              <div className="hero-actions-bb">
+                <Link href="/#calculator" className="hero-btn-primary">
+                  Get Free Access →
+                </Link>
+                <Link href="/sure-bets" className="hero-btn-secondary">
+                  ⚡ View Live Sure Bets
+                </Link>
+              </div>
+
+              {/* Trustpilot-style social proof badge */}
+              <div className="hero-trust-rating">
+                <div className="stars-row">★★★★★</div>
+                <span className="rating-text">
+                  <strong>4.9/5 Rating</strong> · Trusted by 500+ Kenyan Bettors
+                </span>
+              </div>
             </div>
 
-            <div className="hero-stats">
-              <div className="stat">
-                <span className="stat-value accent">5%</span>
-                <span className="stat-label">Finance Act 2025 Tax</span>
-              </div>
-              <div className="stat-divider" aria-hidden="true" />
-              <div className="stat">
-                <span className="stat-value positive">KES 11–309</span>
-                <span className="stat-label">M-Pesa Fee Included</span>
-              </div>
-              <div className="stat-divider" aria-hidden="true" />
-              <div className="stat">
-                <span className="stat-value">5</span>
-                <span className="stat-label">Bookmakers Scanned</span>
+            {/* Hero Right — Cutout Character Image with Floating Cards */}
+            <div className="hero-bb-visual">
+              <div className="hero-image-wrapper">
+                <Image
+                  src="/happy_woman_winning.png"
+                  alt="Happy Kenyan bettor celebrating a big win on her smartphone"
+                  width={520}
+                  height={600}
+                  priority
+                  className="hero-character-img"
+                />
+
+                {/* Floating badge 1 */}
+                <div className="floating-badge badge-top-right">
+                  <span className="badge-icon">💰</span>
+                  <div>
+                    <span className="badge-title">KES 14,777.50</span>
+                    <span className="badge-sub">Net Take-Home (Tax Paid)</span>
+                  </div>
+                </div>
+
+                {/* Floating badge 2 */}
+                <div className="floating-badge badge-bottom-left">
+                  <span className="badge-icon">⚡</span>
+                  <div>
+                    <span className="badge-title">+3.42% Guaranteed</span>
+                    <span className="badge-sub">Risk-Free Arbitrage</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. The Problem (Agitation) */}
-      <section className="section section-alt" aria-labelledby="problem-heading">
+      {/* Quote Banner Section */}
+      <section className="quote-section">
         <div className="container">
-          <div className="agitation-card">
-            <div className="agitation-badge">⚠️ THE REAL COST OF BETTING BLIND</div>
-            <h2 id="problem-heading" className="agitation-title">
-              You're Probably Losing Money Without Knowing It
+          <blockquote className="quote-card">
+            <p className="quote-text">
+              "This arbitrage &amp; payout math tool lets me walk away with more money every time, no matter who wins."
+            </p>
+          </blockquote>
+        </div>
+      </section>
+
+      {/* Comparison Section: Without BetFactor vs With BetFactor */}
+      <section className="section section-alt" aria-labelledby="comparison-heading">
+        <div className="container">
+          <div className="section-header">
+            <div className="section-tag">WHY BETFACTOR MATTERS</div>
+            <h2 id="comparison-heading" className="section-title">
+              Stop Guessing Your Real Take-Home
             </h2>
-            <p className="agitation-desc">
-              Most bettors in Kenya pick one platform and stick with it. But odds move constantly, and a 0.15 difference on your stake adds up fast over a season.
-            </p>
-            <p className="agitation-desc">
-              Worse — nobody tells you what you're <em>really</em> taking home. Withholding tax and M-Pesa withdrawal fees quietly eat into every payout. You place a bet thinking you'll win KES 4,200. You actually walk away with less. Every time.
-            </p>
-            <div className="agitation-highlight">
-              💡 <strong>BetFactor fixes both problems on one screen.</strong>
+            <p className="section-subtitle">See the difference before placing your next wager</p>
+          </div>
+
+          <div className="comparison-grid">
+            {/* Without BetFactor */}
+            <div className="comp-card bad">
+              <div className="comp-badge bad">❌ WITHOUT BETFACTOR</div>
+              <ul className="comp-list">
+                <li>Pick a single bookmaker and stick with it</li>
+                <li>Lose out on 0.15 to 0.45 higher odds on rival platforms</li>
+                <li>Surprised by 5% withholding tax deducted at withdrawal</li>
+                <li>M-Pesa agent fees eat into your net profit quietly</li>
+                <li>No visibility into risk-free arbitrage opportunities</li>
+              </ul>
+            </div>
+
+            {/* With BetFactor */}
+            <div className="comp-card good">
+              <div className="comp-badge good">✅ WITH BETFACTOR</div>
+              <ul className="comp-list">
+                <li>Scan 5 major Kenyan bookmakers side-by-side in real time</li>
+                <li>Always place your bet at the absolute highest decimal odds</li>
+                <li>Calculate exact M-Pesa net cash out before placing the bet</li>
+                <li>Built-in Safaricom Finance Act 2025 tariff tables</li>
+                <li>Spot instant risk-free sure bets across bookmakers</li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. The Solution (Feature Overview) & Calculator */}
+      {/* Interactive Tools & Calculator */}
       <section id="calculator" className="section" aria-labelledby="solution-heading">
         <div className="container">
           <div className="section-header">
-            <div className="section-tag">THREE TOOLS. ONE DASHBOARD. ZERO GUESSWORK.</div>
+            <div className="section-tag">TOO QUICK FOR YOUR BOOKIE TO REACT</div>
             <h2 id="solution-heading" className="section-title">
-              Calculators &amp; Smart Tools
+              Calculators &amp; Live Scanners
             </h2>
             <p className="section-subtitle">
-              Interactive net take-home calculation, live tax deductions, and best odds matching.
+              Live tax deductions, Safaricom withdrawal fees, and odds comparison.
             </p>
           </div>
 
           <div className="tools-grid">
             <div className="tool-card">
               <span className="tool-icon">🔍</span>
-              <h3 className="tool-title">Real-Time Odds Comparison</h3>
+              <h3 className="tool-title">Real-Time Odds Scanner</h3>
               <p className="tool-desc">
-                See every major Kenyan bookmaker's odds for today's biggest matches, side by side, updated live. The best price is always flagged for you.
+                Scans SportPesa, Betika, Mozzart, SportyBet, and 1xBet every 60–90 seconds. Always flags the highest return.
               </p>
             </div>
             <div className="tool-card active">
               <span className="tool-icon">🧮</span>
-              <h3 className="tool-title">Net Payout Calculator</h3>
+              <h3 className="tool-title">Net Take-Home Calculator</h3>
               <p className="tool-desc">
-                Enter your stake and odds. Instantly see your real take-home amount after withholding tax and M-Pesa fees — before you place the bet.
+                Enter your stake and odds. Instantly see your real cash-out after 5% withholding tax and M-Pesa fees.
               </p>
             </div>
             <div className="tool-card">
               <span className="tool-icon">⚡</span>
               <h3 className="tool-title">Sure Bets &amp; Arbitrage Finder</h3>
               <p className="tool-desc">
-                Unlock the arbitrage calculator on any match to see if there's a risk-free opportunity across bookmakers where you profit regardless of outcome.
+                Spot cross-bookmaker price gaps where mathematical profit is guaranteed regardless of match result.
               </p>
             </div>
           </div>
@@ -129,7 +188,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. How It Works (3 Steps) */}
+      {/* Bookmakers Banner */}
+      <section className="bookmakers-section">
+        <div className="container">
+          <h3 className="bookmakers-title">Works with YOUR Favorite Kenyan Bookmakers</h3>
+          <div className="bookmakers-badges">
+            <span className="bookie-pill">SportPesa</span>
+            <span className="bookie-pill">Betika</span>
+            <span className="bookie-pill">Odibets</span>
+            <span className="bookie-pill">Mozzart</span>
+            <span className="bookie-pill">SportyBet</span>
+            <span className="bookie-pill">1xBet</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 3-Step Process */}
       <section id="how-it-works-section" className="section section-alt" aria-labelledby="how-heading">
         <div className="container">
           <div className="section-header">
@@ -144,28 +218,28 @@ export default function HomePage() {
               <div className="step-num">01</div>
               <h3 className="step-title">Browse Live Matches</h3>
               <p className="step-desc">
-                Open BetFactor and see today's top fixtures with live odds from every major Kenyan bookmaker, updating in real time.
+                Open BetFactor and see today's top fixtures with live odds from every major Kenyan bookmaker.
               </p>
             </div>
             <div className="step-card">
               <div className="step-num">02</div>
               <h3 className="step-title">Check Your Numbers</h3>
               <p className="step-desc">
-                Tap any match to open the calculator. See your projected payout after tax and fees, or check if an arbitrage opportunity exists.
+                Tap any match to open the calculator. See your projected payout after tax and fees, or check for arbitrage.
               </p>
             </div>
             <div className="step-card">
               <div className="step-num">03</div>
               <h3 className="step-title">Bet Smarter, Not Harder</h3>
               <p className="step-desc">
-                Place your bet on whichever platform actually has the best price — and know exactly what you'll walk away with.
+                Place your bet on whichever platform actually has the best price — and know what you walk away with.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Matches Section */}
+      {/* Featured Matches */}
       <section id="matches" className="section" aria-labelledby="matches-heading">
         <div className="container">
           <div className="section-header">
@@ -184,7 +258,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. Why Subscribe (Value Stack / Pricing Table) */}
+      {/* Pricing Table */}
       <section id="pricing" className="section section-alt" aria-labelledby="pricing-heading">
         <div className="container">
           <div className="section-header">
@@ -201,30 +275,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. Social Proof */}
-      <section className="section" aria-labelledby="proof-heading">
-        <div className="container">
-          <div className="social-proof-card">
-            <div className="proof-icon">🚀</div>
-            <h3 id="proof-heading" className="proof-title">
-              Join 500+ Early Kenyan Bettors
-            </h3>
-            <p className="proof-desc">
-              Tracking live odds and calculating exact net M-Pesa take-home figures across SportPesa, Betika, Mozzart, SportyBet, and 1xBet.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Trust & Transparency Block */}
-      <section className="section section-alt" aria-labelledby="trust-section-heading">
+      {/* Trust & Transparency */}
+      <section className="section" aria-labelledby="trust-section-heading">
         <div className="container">
           <TrustBlock />
         </div>
       </section>
 
-      {/* 8. FAQ Section */}
-      <section className="section" aria-labelledby="faq-heading">
+      {/* FAQ Accordion */}
+      <section className="section section-alt" aria-labelledby="faq-heading">
         <div className="container">
           <div className="section-header">
             <h2 id="faq-heading" className="section-title">
@@ -236,7 +295,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9. Final CTA (Bottom of Page) */}
+      {/* Final CTA Banner */}
       <section className="section final-cta-section" aria-labelledby="final-cta-heading">
         <div className="container">
           <div className="final-cta-card">
