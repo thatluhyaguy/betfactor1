@@ -1,107 +1,68 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About BetFactor Kenya',
+  title: 'What BetFactor Is — and Isn\'t | BetFactor Kenya',
   description:
-    'About BetFactor — an independent betting calculator and odds comparison tool for Kenya. Disclaimer, data accuracy policy, and contact information.',
+    'Independent tax calculator and odds comparison tool for Kenyan bettors. Not a bookmaker, not financial advice.',
 };
 
 export default function AboutPage() {
   return (
     <div className="static-page">
-      <div className="container">
-        <div className="page-header">
-          <span className="page-tag">About</span>
-          <h1 className="page-title">About BetFactor</h1>
-          <p className="page-lead">
-            Independent. Data-driven. Built for Kenyan bettors.
-          </p>
+      <div className="container full-width-container">
+        <div className="page-header" style={{ maxWidth: '820px' }}>
+          <span className="page-tag">TRANSPARENCY &amp; INDEPENDENCE</span>
+          <h1 className="page-title">What BetFactor Is — and Isn't</h1>
         </div>
 
-        <div className="content-body">
-          <section className="content-section" aria-labelledby="about-heading">
-            <h2 id="about-heading">What is BetFactor?</h2>
+        <div className="content-body" style={{ maxWidth: '860px' }}>
+          {/* What We Are */}
+          <div className="content-section">
+            <h2>What We Are</h2>
             <p>
-              BetFactor is an independent betting utility tool built specifically for the Kenyan market. We are not a bookmaker
-              and we do not accept bets. Our tools help you make more informed decisions by showing you:
+              BetFactor is an independent calculator and odds-comparison tool built for Kenyan bettors. We help you see two things clearly: what you'll actually take home after tax and M-Pesa fees, and how odds differ across bookmakers for the same match.
             </p>
-            <ul>
-              <li>Your exact net take-home after Kenya&apos;s 5% betting withdrawal tax (Finance Act 2025) and M-Pesa agent fees</li>
-              <li>Which bookmaker offers the best available odds on upcoming matches</li>
-            </ul>
-            <p>
-              We built BetFactor because the math of betting in Kenya is opaque. Most punters don&apos;t realize how much of their
-              winnings go to tax and fees — especially after the Finance Act 2025 changed the tax structure.
-            </p>
-          </section>
+          </div>
 
-          <section className="content-section" aria-labelledby="disclaimer-heading">
-            <h2 id="disclaimer-heading">Important Disclaimers</h2>
-            <div className="disclaimer-box">
-              <h3>Odds Data</h3>
-              <p>
-                Odds displayed on BetFactor are manually curated and updated periodically. They <strong>may not reflect live
-                or current prices</strong> on any bookmaker&apos;s platform. Always verify odds on the bookmaker&apos;s official
-                site or app before placing any bet.
-              </p>
-            </div>
-            <div className="disclaimer-box">
-              <h3>Calculator Estimates</h3>
-              <p>
-                The net payout calculator provides <strong>estimates only</strong>. Withholding tax rates and M-Pesa tariffs
-                are subject to change by KRA and Safaricom respectively. BetFactor makes reasonable efforts to keep these
-                figures current, but cannot guarantee they reflect the exact deductions applied by any bookmaker at any given time.
-              </p>
-            </div>
-            <div className="disclaimer-box">
-              <h3>Not Financial Advice</h3>
-              <p>
-                Nothing on BetFactor constitutes financial advice, investment advice, or a recommendation to bet.
-                Gambling involves risk and the majority of bettors lose money over time. Use BetFactor as an
-                informational tool only.
-              </p>
-            </div>
-            <div className="disclaimer-box">
-              <h3>Regulatory Status</h3>
-              <p>
-                BetFactor is an information and calculator service. We do not operate as a bookmaker, betting exchange,
-                or betting intermediary. We do not facilitate wagering or handle funds. Users are responsible for
-                complying with all applicable Kenyan laws relating to gambling.
-              </p>
-            </div>
-          </section>
-
-          <section className="content-section" aria-labelledby="responsible-heading">
-            <h2 id="responsible-heading">Responsible Gambling</h2>
-            <p>
-              BetFactor supports responsible gambling. If you or someone you know is struggling with gambling-related problems:
-            </p>
-            <ul>
+          {/* What We Are Not */}
+          <div className="content-section">
+            <h2>What We Are Not</h2>
+            <ul className="comp-list-fw bad" style={{ margin: '16px 0' }}>
               <li>
-                <a href="https://www.ncpg.or.ke" target="_blank" rel="noopener noreferrer">
-                  National Council on Problem Gambling (NCPG) Kenya
-                </a>
+                <strong>We are not a bookmaker.</strong> We do not accept bets, hold stakes, or process wagers.
               </li>
-              <li>Talk to a trusted friend, family member, or counsellor</li>
-              <li>Consider self-exclusion tools offered by individual bookmakers</li>
+              <li>
+                <strong>We are not affiliated</strong> with SportPesa, Betika, Odibets, Mozzart, 1xBet, or any bookmaker we compare.
+              </li>
+              <li>
+                <strong>We are not a financial advisor.</strong> Every figure shown is an estimate based on publicly available tax and fee information, not a guarantee.
+              </li>
             </ul>
-            <p>
-              🛡️ You must be <strong>18 years or older</strong> to use betting services in Kenya.
-            </p>
-          </section>
+          </div>
 
-          <section className="content-section" aria-labelledby="accuracy-heading">
-            <h2 id="accuracy-heading">Data Accuracy</h2>
-            <p>
-              We take data accuracy seriously. Here&apos;s our policy:
-            </p>
-            <ul>
-              <li>Tax rates and M-Pesa tariffs are reviewed and updated whenever changes are announced by KRA or Safaricom</li>
-              <li>Each published rate includes a &quot;last verified&quot; date so you can assess its currency</li>
-              <li>Match odds are manually entered and timestamped with a &quot;last updated&quot; indicator on each page</li>
-              <li>Pages with data older than 24 hours display a visible staleness warning</li>
+          {/* Where Our Numbers Come From */}
+          <div className="content-section">
+            <h2>Where Our Numbers Come From</h2>
+            <ul className="comp-list-fw good" style={{ margin: '16px 0' }}>
+              <li>Tax calculations use the Finance Act 2025 withholding rate, verified against KRA's published guidance.</li>
+              <li>M-Pesa fee calculations use Safaricom's published agent withdrawal tariff.</li>
+              <li>Odds shown today are manually checked against each bookmaker's own platform. Automated live scanning is in development — see How It Works for details.</li>
             </ul>
-          </section>
+            <p style={{ marginTop: '16px', fontSize: '0.88rem', color: 'var(--text-muted)' }}>
+              Rates change. Always confirm current tax rules at kra.go.ke and current M-Pesa tariffs at safaricom.co.ke before relying on an exact figure for a significant payout.
+            </p>
+          </div>
+
+          {/* Responsible Gambling */}
+          <div className="content-section">
+            <h2>Responsible Gambling</h2>
+            <p>
+              Betting carries real financial risk, and BetFactor's tools are meant to help you make clearer decisions — not to encourage betting more than you otherwise would. If gambling has stopped being enjoyable or is causing financial strain, free support is available through the National Council on Problem Gambling Kenya (NCPG) at{' '}
+              <a href="https://www.ncpg.or.ke" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>
+                ncpg.or.ke
+              </a>. You must be 18 or older to bet in Kenya.
+            </p>
+          </div>
         </div>
       </div>
     </div>

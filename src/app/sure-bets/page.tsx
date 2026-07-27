@@ -1,181 +1,124 @@
-'use client';
-
-import { useState } from 'react';
-import useSWR from 'swr';
-import ArbitrageCalculatorModal from '@/components/ArbitrageCalculatorModal';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const BOOKMAKER_NAMES: Record<string, string> = {
-  'arsenal-vs-chelsea': 'Arsenal vs Chelsea',
-  'man-city-vs-liverpool': 'Man City vs Liverpool',
-  'real-madrid-vs-barcelona': 'Real Madrid vs Barcelona',
-  'man-united-vs-tottenham': 'Man United vs Tottenham',
-  'psg-vs-bayern-munich': 'PSG vs Bayern Munich',
-  'chelsea-vs-man-united': 'Chelsea vs Man United',
-  'liverpool-vs-arsenal': 'Liverpool vs Arsenal',
+export const metadata: Metadata = {
+  title: 'Risk-Free Arbitrage Betting (Coming Soon) | BetFactor Kenya',
+  description:
+    'Automated live odds scanning for sure bets across SportPesa, Betika, Odibets, Mozzart, and 1xBet is in active development. Sign up for launch notifications.',
 };
-
-const COMPETITION_MAP: Record<string, string> = {
-  'arsenal-vs-chelsea': 'Premier League',
-  'man-city-vs-liverpool': 'Premier League',
-  'real-madrid-vs-barcelona': 'La Liga',
-  'man-united-vs-tottenham': 'Premier League',
-  'psg-vs-bayern-munich': 'UEFA Champions League',
-  'chelsea-vs-man-united': 'Premier League',
-  'liverpool-vs-arsenal': 'Premier League',
-};
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-function formatAge(isoString: string | null): string {
-  if (!isoString) return 'Unknown';
-  const diffSec = Math.round((Date.now() - new Date(isoString).getTime()) / 1000);
-  if (diffSec < 60) return `${diffSec}s ago`;
-  if (diffSec < 3600) return `${Math.round(diffSec / 60)}m ago`;
-  return `${Math.round(diffSec / 3600)}h ago`;
-}
 
 export default function SureBetsPage() {
-  const [selectedMatch, setSelectedMatch] = useState<any | null>(null);
-  // In production this would read from user session/auth context
-  const isMember = false;
-
-  const { data, error, isLoading } = useSWR('/api/odds/arbitrage', fetcher, {
-    refreshInterval: 25_000, // Poll every 25 seconds
-    revalidateOnFocus: true,
-  });
-
-  const opportunities: any[] = data?.opportunities ?? [];
-  const dataSource: string = data?.dataSource ?? 'loading';
-  const lastCheckedAt: string | null = data?.lastCheckedAt ?? null;
-  const staleWarning: boolean = data?.staleWarning ?? false;
-
-  const liveStatus =
-    isLoading ? '⏳ Connecting to scraper...'
-    : error ? '🔴 Scraper unreachable — showing cached data'
-    : staleWarning ? '🟡 Data may be delayed — Redis cold, showing DB snapshot'
-    : '🟢 Live · Updated every 60–90s via scraper';
-
   return (
     <div className="static-page">
-      <div className="container">
-        <div className="page-header">
-          <span className="page-tag">⚡ LIVE ARBITRAGE FINDER</span>
-          <h1 className="page-title">Sure Bets &amp; Risk-Free Arbitrage</h1>
+      <div className="container full-width-container">
+        {/* Hero */}
+        <div className="page-header" style={{ maxWidth: '820px' }}>
+          <span className="page-tag">COMING SOON</span>
+          <h1 className="page-title">
+            Risk-Free Arbitrage Betting — Live Scanning Launching Soon
+          </h1>
           <p className="page-lead">
-            Scanned live across SportPesa, Betika, and Odibets. Mathematical profit opportunities — guaranteed regardless of match outcome.
+            BetFactor is building an automated scanner across SportPesa, Betika, Odibets, Mozzart, and 1xBet to catch moments when combined odds guarantee a profit regardless of match outcome. It's not live yet — here's what it will do, and how to get notified the moment it is.
           </p>
+
+          <form action="/signup" className="hero-ctas-row" style={{ justifyContent: 'center', marginTop: '28px' }}>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="calc-input"
+              style={{ maxWidth: '340px', fontSize: '0.95rem', padding: '12px 16px' }}
+              required
+            />
+            <button type="submit" className="btn-primary-large" style={{ padding: '12px 28px', fontSize: '0.95rem' }}>
+              Notify me when it launches →
+            </button>
+          </form>
         </div>
 
-        <div className="sure-bets-list">
-          <div className={`live-status-bar ${staleWarning ? 'stale' : ''}`}>
-            <span>{liveStatus}</span>
-            <span>
-              {dataSource === 'redis' ? 'Source: Live Redis' : dataSource === 'postgres' ? 'Source: DB snapshot' : ''}
-              {lastCheckedAt ? ` · Checked ${formatAge(lastCheckedAt)}` : ''}
-            </span>
+        <div className="content-body" style={{ maxWidth: '860px', marginTop: '48px' }}>
+          {/* Section: What Is Arbitrage Betting? */}
+          <div className="content-section">
+            <h2>The Math Behind a "Sure Bet"</h2>
+            <p>
+              Arbitrage happens when bookmakers disagree enough on a match's outcome that you can place bets across all possible results — split across different platforms — and come out ahead no matter which result actually happens.
+            </p>
+
+            <div className="pricing-table-wrapper" style={{ margin: '24px 0' }}>
+              <table className="pricing-table">
+                <thead>
+                  <tr>
+                    <th>Outcome</th>
+                    <th>Best Odds</th>
+                    <th>Bookmaker</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="feature-name">Arsenal Win</td>
+                    <td>2.20</td>
+                    <td className="text-positive"><strong>SportPesa</strong></td>
+                  </tr>
+                  <tr>
+                    <td className="feature-name">Draw</td>
+                    <td>3.60</td>
+                    <td className="text-positive"><strong>Betika</strong></td>
+                  </tr>
+                  <tr>
+                    <td className="feature-name">Chelsea Win</td>
+                    <td>3.80</td>
+                    <td className="text-positive"><strong>Odibets</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              If you split a KES 10,000 budget proportionally across all three outcomes at these odds, you land a small guaranteed profit regardless of the result — typically 1–4% of your total stake. It's not a way to get rich fast; it's a way to extract a small, mathematically guaranteed edge from bookmakers pricing the same match differently.
+            </p>
           </div>
 
-          {isLoading && (
-            <div className="sb-loading">Loading live arbitrage data...</div>
-          )}
+          {/* Section: Why This Needs Automation */}
+          <div className="content-section">
+            <h2>Why We're Not Just Publishing a List</h2>
+            <p>
+              Real arbitrage windows are narrow — odds shift the moment enough people bet into them, and by the time three bookmakers' prices are manually compared, the opportunity is often gone. That's why this page isn't live yet: doing this properly means constantly scanning odds in near real time, not checking by hand once an hour.
+            </p>
+            <p>
+              We're building that scanning infrastructure now. When it launches, this page will show active opportunities with margins updating continuously, plus a per-match calculator to split your stake correctly.
+            </p>
+          </div>
 
-          {!isLoading && opportunities.length === 0 && (
-            <div className="sb-empty">
-              <p>No live arbitrage opportunities detected right now.</p>
-              <p>The scraper checks every 60–90 seconds. Opportunities are rare — typically appearing when bookmakers lag in adjusting prices to new information.</p>
-            </div>
-          )}
+          {/* Section: Know the Risk Before You Start */}
+          <div className="content-section">
+            <h2>One Thing to Understand Going In</h2>
+            <p>
+              Arbitrage betting doesn't put your stake at risk the way a normal bet does — that's the point. But bookmakers know arbitrage patterns exist, and they actively watch for accounts that use them repeatedly. Consistent arbitrage betting can lead to a bookmaker limiting your stakes or closing your account. That's not a reason to avoid it, but it's a real trade-off worth knowing before you rely on it as a regular strategy.
+            </p>
+          </div>
 
-          {opportunities.map((opp: any) => {
-            const matchName = BOOKMAKER_NAMES[opp.matchSlug] ?? opp.matchSlug;
-            const competition = COMPETITION_MAP[opp.matchSlug] ?? 'Football';
-            const [homeTeam, awayTeam] = matchName.split(' vs ');
-
-            return (
-              <div key={opp.matchSlug} className="sure-bet-card">
-                <div className="sb-header">
-                  <div>
-                    <span className="sb-comp">{competition}</span>
-                    <h3 className="sb-teams">{matchName}</h3>
-                    {opp.detectedAt && (
-                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                        Detected {formatAge(opp.detectedAt)}
-                      </span>
-                    )}
-                  </div>
-                  <div className="sb-margin-block">
-                    <span className="sb-margin-label">Arb Margin</span>
-                    {isMember ? (
-                      <span className="sb-margin-val text-positive">+{opp.margin.toFixed(2)}%</span>
-                    ) : (
-                      <span className="sb-margin-val blurred">🔒 +?.??%</span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="sb-odds-row">
-                  <div className="sb-odds-cell">
-                    <span className="sb-label">Home ({homeTeam})</span>
-                    <span className="sb-val">{opp.bestHomeOdds?.toFixed(2)}</span>
-                    <span className="sb-bookie">{opp.bestHomeBookmaker}</span>
-                  </div>
-                  <div className="sb-odds-cell">
-                    <span className="sb-label">Draw</span>
-                    <span className="sb-val">{opp.bestDrawOdds?.toFixed(2)}</span>
-                    <span className="sb-bookie">{opp.bestDrawBookmaker}</span>
-                  </div>
-                  <div className="sb-odds-cell">
-                    <span className="sb-label">Away ({awayTeam})</span>
-                    <span className="sb-val">{opp.bestAwayOdds?.toFixed(2)}</span>
-                    <span className="sb-bookie">{opp.bestAwayBookmaker}</span>
-                  </div>
-                </div>
-
-                <div className="sb-footer">
-                  <span className="sb-updated">Last refreshed {formatAge(lastCheckedAt)}</span>
-                  <button
-                    className="sb-unlock-btn"
-                    onClick={() =>
-                      setSelectedMatch({
-                        homeTeam,
-                        awayTeam,
-                        homeOdds: opp.bestHomeOdds,
-                        homeBookie: opp.bestHomeBookmaker,
-                        drawOdds: opp.bestDrawOdds,
-                        drawBookie: opp.bestDrawBookmaker,
-                        awayOdds: opp.bestAwayOdds,
-                        awayBookie: opp.bestAwayBookmaker,
-                        margin: opp.margin,
-                      })
-                    }
-                  >
-                    {isMember ? 'Open Arbitrage Calculator →' : '🔒 Unlock Calculator'}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+          {/* Section: CTA */}
+          <div className="social-proof-card" style={{ textAlign: 'center', marginTop: '32px' }}>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)' }}>
+              Be First to Know
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '20px' }}>
+              Live scanning is in active development. Leave your email and we'll notify you the moment it's ready — no spam, one email at launch.
+            </p>
+            <form action="/signup" className="hero-ctas-row" style={{ justifyContent: 'center' }}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="calc-input"
+                style={{ maxWidth: '300px', fontSize: '0.95rem', padding: '12px 16px' }}
+                required
+              />
+              <button type="submit" className="btn-primary-large" style={{ padding: '12px 24px', fontSize: '0.95rem' }}>
+                Notify Me →
+              </button>
+            </form>
+          </div>
         </div>
-
-        {/* If no live data, explain scraper dependency */}
-        {!isLoading && opportunities.length === 0 && (
-          <div className="content-body" style={{ marginTop: '40px' }}>
-            <div className="info-box">
-              ℹ️ The live scraper must be running on Railway or Fly.io and connected to Redis for this page to populate with real-time arbitrage opportunities.
-              During development or before the scraper is deployed, this page shows empty state.
-            </div>
-          </div>
-        )}
       </div>
-
-      {selectedMatch && (
-        <ArbitrageCalculatorModal
-          match={selectedMatch}
-          isMember={isMember}
-          onClose={() => setSelectedMatch(null)}
-        />
-      )}
     </div>
   );
 }

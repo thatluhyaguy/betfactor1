@@ -2,62 +2,52 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Sign Up | BetFactor Kenya',
-  description: 'Create a free BetFactor account linked to your Safaricom M-Pesa phone number.',
+  title: 'Join the Launch Waitlist | BetFactor Kenya',
+  description: 'Sign up to get notified when automated live odds scanning and Member features launch.',
 };
 
 export default function SignupPage() {
   return (
     <div className="static-page">
-      <div className="container">
+      <div className="container full-width-container">
         <div className="auth-card">
           <div className="auth-header">
-            <span className="page-tag">CREATE ACCOUNT</span>
-            <h1 className="auth-title">Get Free Access</h1>
-            <p className="auth-sub">Link your Safaricom phone number for instant M-Pesa access</p>
+            <h1 className="auth-title">Join the BetFactor Launch Waitlist</h1>
+            <p className="auth-sub">Get notified the moment automated live odds scanning and Member features launch.</p>
           </div>
 
-          <form className="auth-form" action="/dashboard">
+          <form action="/dashboard" className="calc-inputs" style={{ gridTemplateColumns: '1fr', gap: '16px' }}>
             <div className="input-group">
-              <label htmlFor="phone" className="input-label">M-Pesa Phone Number</label>
+              <label className="input-label">Email Address</label>
               <input
-                id="phone"
-                type="tel"
-                placeholder="07XX XXX XXX or 01XX XXX XXX"
-                className="calc-input"
-                required
-              />
-            </div>
-
-            <div className="input-group" style={{ marginTop: '16px' }}>
-              <label htmlFor="email" className="input-label">Email Address (Optional)</label>
-              <input
-                id="email"
                 type="email"
-                placeholder="name@example.com"
+                placeholder="name@domain.com"
                 className="calc-input"
-              />
-            </div>
-
-            <div className="input-group" style={{ marginTop: '16px' }}>
-              <label htmlFor="signup-password" className="input-label">Create Password</label>
-              <input
-                id="signup-password"
-                type="password"
-                placeholder="At least 6 characters"
-                className="calc-input"
+                style={{ fontSize: '1rem', padding: '12px 16px' }}
                 required
               />
             </div>
+            <div className="input-group">
+              <label className="input-label">M-Pesa Phone Number (Optional)</label>
+              <input
+                type="tel"
+                placeholder="e.g. 0712345678"
+                className="calc-input"
+                style={{ fontSize: '1rem', padding: '12px 16px' }}
+              />
+            </div>
 
-            <button type="submit" className="cta-button" style={{ width: '100%', marginTop: '24px' }}>
-              Create Account →
+            <button type="submit" className="btn-primary-large" style={{ width: '100%', marginTop: '8px' }}>
+              Notify Me at Launch →
             </button>
           </form>
 
+          <div className="info-box" style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.82rem' }}>
+            🔒 <strong>No spam guarantee:</strong> You will only receive one email when automated live odds scanning and sure bets launch.
+          </div>
+
           <div className="auth-footer">
-            <span>Already have an account? </span>
-            <Link href="/login" className="explainer-link">Log in</Link>
+            Already have an account? <Link href="/login" style={{ color: 'var(--accent)', fontWeight: 600 }}>Log in →</Link>
           </div>
         </div>
       </div>

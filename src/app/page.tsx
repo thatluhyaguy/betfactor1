@@ -3,18 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Calculator from '@/components/Calculator';
 import MatchCard from '@/components/MatchCard';
-import OddsTicker from '@/components/OddsTicker';
-import PricingTable from '@/components/PricingTable';
 import FaqAccordion from '@/components/FaqAccordion';
 import TrustBlock from '@/components/TrustBlock';
-import ProfitChart from '@/components/ProfitChart';
-import FeatureTabs from '@/components/FeatureTabs';
 import matches from '@/data/matches.json';
 
 export const metadata: Metadata = {
-  title: 'BetFactor Kenya — Bet Smarter & Find Risk-Free Arbitrage Opportunities',
+  title: 'BetFactor Kenya — Net Payout & Odds Calculator (Finance Act 2025)',
   description:
-    'BetFactor scans odds across SportPesa, Betika, Mozzart, SportyBet, and 1xBet in real time. Calculate exact M-Pesa net payouts after 5% withholding tax & M-Pesa fees.',
+    'Calculate your exact net cash-out after Kenya\'s 5% withholding tax (Finance Act 2025) and Safaricom M-Pesa agent withdrawal fees. Free, instant, and transparent.',
 };
 
 export default function HomePage() {
@@ -22,81 +18,66 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Live Odds Ticker */}
-      <OddsTicker />
-
-      {/* Breakout Hero Section — Revolut / Stripe / Linear Style */}
+      {/* 1. Hero Section — Breakout Illustration Layout */}
       <section className="hero-breakout" aria-labelledby="hero-headline">
         <div className="container full-width-container">
           <div className="hero-breakout-grid">
             {/* Left Content */}
             <div className="hero-text-col">
               <div className="hero-pill-badge">
-                🇰🇪 KENYA'S #1 ODDS &amp; PAYOUT COMPARISON PLATFORM
+                🇰🇪 KENYA'S NET PAYOUT &amp; ODDS CALCULATOR
               </div>
               <h1 id="hero-headline" className="hero-breakout-title">
-                Bet Smarter.{' '}
-                <span className="hero-highlight-text">Find Arbitrage</span> Opportunities.
+                You Don't Know What You Actually Take Home.{' '}
+                <span className="hero-highlight-text">Until Now.</span>
               </h1>
               <p className="hero-breakout-sub">
-                Stop leaving money on the table. BetFactor scans odds across <strong>SportPesa, Betika, Mozzart, SportyBet</strong> and <strong>1xBet</strong> in real time — so you place your wager at the highest price and calculate exact net cash-out after 5% tax and M-Pesa fees.
+                Enter your stake and odds. See your exact net payout after Kenya's 5% withholding tax (Finance Act 2025) and M-Pesa withdrawal fees — before you place the bet, not after you're staring at a smaller number than you expected.
               </p>
 
               <div className="hero-ctas-row">
                 <Link href="/#calculator" className="btn-primary-large">
-                  Get Free Access →
+                  Calculate My Payout →
                 </Link>
-                <Link href="/sure-bets" className="btn-secondary-large">
-                  ⚡ View Live Sure Bets
+                <Link href="/#how-the-math-works" className="btn-secondary-large">
+                  See how the math works ↓
                 </Link>
               </div>
 
-              {/* Trustpilot-style rating badge */}
               <div className="hero-trust-bar">
-                <div className="stars-gold">★★★★★</div>
                 <span className="trust-text-small">
-                  <strong>4.9/5 Rating</strong> · Rated by 500+ Kenyan Bettors
+                  ✓ 100% Free · No Signup Required · Verified Finance Act 2025 &amp; M-Pesa Tariff Rates
                 </span>
               </div>
             </div>
 
             {/* Right Column: Layered Breakout Character Illustration */}
             <div className="hero-illustration-col">
-              {/* Ambient Glow */}
               <div className="hero-ambient-glow" aria-hidden="true" />
 
-              {/* Floating UI Element 1: Top Right */}
+              {/* Floating UI Badge 1 */}
               <div className="floating-ui-badge ui-top-right">
-                <span className="ui-icon-bolt">⚡</span>
+                <span className="ui-icon-bolt">🧮</span>
                 <div>
-                  <span className="ui-bold-text text-positive">+12.8% Arbitrage</span>
-                  <span className="ui-sub-text">Opportunity Found</span>
+                  <span className="ui-bold-text text-positive">KES 2,251.00 Net Take-Home</span>
+                  <span className="ui-sub-text">5% Tax &amp; M-Pesa Fee Deducted</span>
                 </div>
               </div>
 
-              {/* Floating UI Element 2: Middle Left */}
+              {/* Floating UI Badge 2 */}
               <div className="floating-ui-badge ui-middle-left">
-                <span className="ui-icon-lock">🔒</span>
+                <span className="ui-icon-lock">⚖️</span>
                 <div>
-                  <span className="ui-bold-text">Profit Locked</span>
-                  <span className="ui-sub-text text-positive">+ KES 3,240</span>
+                  <span className="ui-bold-text">0.15 Odds Gap</span>
+                  <span className="ui-sub-text text-positive">= KES 150 Difference / Bet</span>
                 </div>
               </div>
 
-              {/* Floating UI Element 3: Bottom Right */}
-              <div className="floating-ui-badge ui-bottom-right">
-                <span className="ui-icon-bar">📊</span>
-                <div>
-                  <span className="ui-bold-text">Live Odds Comparison</span>
-                  <span className="ui-sub-text">2.35 (SportPesa) vs 1.94</span>
-                </div>
-              </div>
-
-              {/* Character Image (Extends below hero container for depth) */}
+              {/* Character Image */}
               <div className="character-crop-box">
                 <Image
                   src="/hero_woman.png"
-                  alt="Confident Kenyan woman looking at her smartphone"
+                  alt="Confident Kenyan bettor checking net payouts on her smartphone"
                   width={580}
                   height={800}
                   priority
@@ -108,109 +89,51 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Metric Counters Banner */}
-      <section className="stats-banner-section">
-        <div className="container full-width-container">
-          <div className="stats-banner-grid">
-            <div className="stat-box">
-              <span className="stat-number text-positive">KES 1.4M+</span>
-              <span className="stat-desc">Net Profit Retained by Users</span>
-            </div>
-            <div className="stat-box">
-              <span className="stat-number accent">5</span>
-              <span className="stat-desc">Major Scraped Bookmakers</span>
-            </div>
-            <div className="stat-box">
-              <span className="stat-number">60s</span>
-              <span className="stat-desc">Real-Time Refresh Frequency</span>
-            </div>
-            <div className="stat-box">
-              <span className="stat-number positive">100%</span>
-              <span className="stat-desc">Finance Act 2025 Tax Accuracy</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Interactive Analytics Simulation Chart */}
-      <section className="section" aria-labelledby="chart-section-title">
+      {/* 2. The Real Problem Section */}
+      <section id="how-the-math-works" className="section section-alt" aria-labelledby="problem-heading">
         <div className="container full-width-container">
           <div className="section-header">
-            <div className="section-tag">DATA-DRIVEN BETTING</div>
-            <h2 id="chart-section-title" className="section-title">
-              Why Odds Optimization Compounds Over Time
+            <div className="section-tag">WHY YOUR PAYOUT IS LOWER THAN EXPECTED</div>
+            <h2 id="problem-heading" className="section-title">
+              Every Bookmaker Shows You Odds. Nobody Shows You What You'll Actually Get Paid.
             </h2>
             <p className="section-subtitle">
-              See how getting a 0.15–0.40 odds difference on every bet adds up to massive profits.
+              You place a bet at odds of 2.40 on a KES 1,000 stake. You do the mental math: KES 2,400. That's not what lands in your M-Pesa.
             </p>
           </div>
 
-          <ProfitChart />
-        </div>
-      </section>
-
-      {/* Feature Showcase Tabs */}
-      <section className="section section-alt" aria-labelledby="features-tab-title">
-        <div className="container full-width-container">
-          <div className="section-header">
-            <div className="section-tag">ENGINEERED FOR VALUE</div>
-            <h2 id="features-tab-title" className="section-title">
-              Four Core Tools. Zero Guesswork.
-            </h2>
-          </div>
-
-          <FeatureTabs />
-        </div>
-      </section>
-
-      {/* Comparison Section: Without vs With BetFactor */}
-      <section className="section" aria-labelledby="comparison-heading">
-        <div className="container full-width-container">
-          <div className="section-header">
-            <div className="section-tag">THE BETFACTOR ADVANTAGE</div>
-            <h2 id="comparison-heading" className="section-title">
-              Stop Guessing Your Real Cash-Out
-            </h2>
-          </div>
-
-          <div className="comparison-grid-fw">
-            {/* Without BetFactor */}
-            <div className="comp-card-fw bad">
-              <div className="comp-badge bad">❌ WITHOUT BETFACTOR</div>
-              <ul className="comp-list-fw">
-                <li>Stick with a single bookmaker and accept lower odds</li>
-                <li>Lose KES 150–450 per wager by missing better prices elsewhere</li>
-                <li>Surprised by 5% withholding tax deducted automatically</li>
-                <li>M-Pesa agent withdrawal fees eat into remaining net profit</li>
-                <li>Zero awareness of risk-free cross-bookmaker arbitrage</li>
-              </ul>
-            </div>
-
-            {/* With BetFactor */}
-            <div className="comp-card-fw good">
-              <div className="comp-badge good">✅ WITH BETFACTOR</div>
-              <ul className="comp-list-fw">
-                <li>Scan SportPesa, Betika, Odibets, Mozzart &amp; 1xBet live</li>
-                <li>Always place your wager at the highest available decimal odds</li>
-                <li>Calculate exact net cash-out after 5% tax and agent fees</li>
-                <li>Automated Safaricom Finance Act 2025 tariff schedule</li>
-                <li>Instant notification when risk-free sure bets occur</li>
-              </ul>
+          <div className="agitation-card">
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '16px', color: 'var(--text-primary)' }}>
+              Here's what actually happens:
+            </h3>
+            <ul className="comp-list-fw bad" style={{ marginBottom: '24px' }}>
+              <li>
+                <strong>5% withholding tax</strong> comes off your gross winnings under the Finance Act 2025 — automatically, no exceptions.
+              </li>
+              <li>
+                <strong>M-Pesa withdrawal fees</strong> apply based on the amount bracket, whether you're pulling out KES 500 or KES 50,000.
+              </li>
+              <li>
+                Most bettors find out the real number only after the payout lands — and by then it's too late to have shopped for better odds elsewhere.
+              </li>
+            </ul>
+            <div className="agitation-highlight">
+              💡 <strong>BetFactor does the math before you bet, not after.</strong>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Embedded Live Net Payout Calculator */}
-      <section id="calculator" className="section section-alt" aria-labelledby="calc-heading">
+      {/* 3. The Calculator Section */}
+      <section id="calculator" className="section" aria-labelledby="calc-heading">
         <div className="container full-width-container">
           <div className="section-header">
-            <div className="section-tag">INTERACTIVE CALCULATOR</div>
+            <div className="section-tag">THE ONLY NUMBER THAT MATTERS</div>
             <h2 id="calc-heading" className="section-title">
-              Net Take-Home Calculator
+              What You'll Actually Walk Away With
             </h2>
             <p className="section-subtitle">
-              Live updates · Finance Act 2025 rates · M-Pesa agent fees included
+              Enter your stake and decimal odds. We apply the current Finance Act 2025 withholding rate and Safaricom's M-Pesa agent withdrawal tariff — the same numbers the bookmakers use, laid out line by line so you can check our math.
             </p>
           </div>
 
@@ -218,30 +141,126 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Supported Bookmakers Banner */}
-      <section className="bookmakers-banner-full">
+      {/* 4. Why Odds Shopping Matters Section */}
+      <section className="section section-alt" aria-labelledby="shopping-heading">
         <div className="container full-width-container">
-          <h3 className="bm-heading">Works With Kenya's Top Bookmakers</h3>
-          <div className="bm-grid">
-            <span className="bm-card">SportPesa</span>
-            <span className="bm-card">Betika</span>
-            <span className="bm-card">Odibets</span>
-            <span className="bm-card">Mozzart</span>
-            <span className="bm-card">SportyBet</span>
-            <span className="bm-card">1xBet</span>
+          <div className="section-header">
+            <div className="section-tag">REAL NUMBERS, REAL IMPACT</div>
+            <h2 id="shopping-heading" className="section-title">
+              A 0.15 Difference in Odds Is Real Money
+            </h2>
+            <p className="section-subtitle" style={{ maxWidth: '780px', margin: '0 auto' }}>
+              Bookmakers don't all offer the same price on the same match. SportPesa might have Arsenal to win at 2.10 while another platform has it at 2.25. On a KES 1,000 stake, that's the difference between a KES 2,100 payout and a KES 2,250 payout — before tax and fees even apply.
+            </p>
+          </div>
+
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <div className="pricing-table-wrapper">
+              <table className="pricing-table">
+                <thead>
+                  <tr>
+                    <th>Platform</th>
+                    <th>Odds</th>
+                    <th>Gross Payout on KES 1,000</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="feature-name">Bookmaker A</td>
+                    <td>2.10</td>
+                    <td>KES 2,100</td>
+                  </tr>
+                  <tr>
+                    <td className="feature-name">Bookmaker B</td>
+                    <td>2.25</td>
+                    <td>KES 2,250</td>
+                  </tr>
+                  <tr style={{ background: 'var(--positive-glow)' }}>
+                    <td className="feature-name" style={{ color: 'var(--positive)' }}><strong>Difference</strong></td>
+                    <td style={{ color: 'var(--positive)' }}><strong>+0.15</strong></td>
+                    <td className="text-positive"><strong>KES 150 per bet</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+              Multiply that gap across every bet you place in a season, and the bookmaker you default to out of habit is quietly costing you money you never notice.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Matches Grid */}
-      <section id="matches" className="section" aria-labelledby="matches-heading">
+      {/* 5. Built in the Open Section */}
+      <section className="section" aria-labelledby="open-heading">
         <div className="container full-width-container">
           <div className="section-header">
-            <h2 id="matches-heading" className="section-title">
-              Today's Scanned Matches
+            <div className="section-tag">TRANSPARENCY FIRST</div>
+            <h2 id="open-heading" className="section-title">
+              Built in the Open
             </h2>
             <p className="section-subtitle">
-              Compare live decimal odds side-by-side
+              Transparency is a feature here, not a weakness — separating BetFactor from sites that claim "live" and aren't.
+            </p>
+          </div>
+
+          <div className="comparison-grid-fw" style={{ maxWidth: '1000px' }}>
+            <div className="comp-card-fw good">
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--positive)', marginBottom: '16px' }}>
+                ✅ Live Today
+              </h3>
+              <ul className="comp-list-fw">
+                <li>Net payout calculator — Finance Act 2025 tax rate + current M-Pesa tariff schedule</li>
+                <li>Manually curated odds comparison for this week's biggest fixtures</li>
+                <li>100% free with no login or credit card required</li>
+              </ul>
+            </div>
+
+            <div className="comp-card-fw bad" style={{ borderColor: 'var(--border)' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--accent)', marginBottom: '16px' }}>
+                🔧 In Active Development
+              </h3>
+              <ul className="comp-list-fw">
+                <li>Automated live odds scanning across SportPesa, Betika, Odibets, Mozzart, and 1xBet</li>
+                <li>Automated sure bets &amp; arbitrage detection engine</li>
+                <li>M-Pesa Member subscription for real-time opportunity alerts</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Email Capture Waitlist Form */}
+          <div className="social-proof-card" style={{ marginTop: '40px', maxWidth: '640px' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)' }}>
+              Get notified when automated live scanning launches
+            </h3>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '20px' }}>
+              No spam. Just one notification email the moment live odds scanning and sure bets go live.
+            </p>
+            <form action="/signup" className="hero-ctas-row" style={{ justifyContent: 'center' }}>
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="calc-input"
+                style={{ maxWidth: '320px', fontSize: '0.95rem', padding: '12px 16px' }}
+                required
+              />
+              <button type="submit" className="btn-primary-large" style={{ padding: '12px 24px', fontSize: '0.95rem' }}>
+                Notify Me →
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Today's Manually Compared Matches */}
+      <section id="matches" className="section section-alt" aria-labelledby="matches-heading">
+        <div className="container full-width-container">
+          <div className="section-header">
+            <div className="section-tag">HAND-PICKED FIXTURES</div>
+            <h2 id="matches-heading" className="section-title">
+              This Week's Odds, Compared By Hand
+            </h2>
+            <p className="section-subtitle">
+              Until live scanning is ready, we're manually checking and updating odds for the week's biggest fixtures — Premier League, La Liga, and Champions League first. Every match below shows when it was last checked.
             </p>
           </div>
           <div className="matches-grid">
@@ -252,31 +271,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Pricing Table */}
-      <section id="pricing" className="section section-alt" aria-labelledby="pricing-heading">
+      {/* 7. How BetFactor Works (3 Steps) */}
+      <section className="section" aria-labelledby="how-heading">
         <div className="container full-width-container">
           <div className="section-header">
-            <div className="section-tag">MEMBERSHIP TIERS</div>
-            <h2 id="pricing-heading" className="section-title">
-              Free vs. BetFactor Member
+            <div className="section-tag">3 SIMPLE STEPS</div>
+            <h2 id="how-heading" className="section-title">
+              How BetFactor Works
             </h2>
-            <p className="section-subtitle">
-              Upgrade or downgrade anytime via M-Pesa STK Push
-            </p>
           </div>
 
-          <PricingTable />
+          <div className="steps-grid-cards">
+            <div className="step-card">
+              <div className="step-num">01</div>
+              <h3 className="step-title">Check the Calculator</h3>
+              <p className="step-desc">
+                Enter your stake and the odds you're being offered. See your real net take-home instantly.
+              </p>
+            </div>
+            <div className="step-card">
+              <div className="step-num">02</div>
+              <h3 className="step-title">Compare This Week's Matches</h3>
+              <p className="step-desc">
+                Browse manually-verified odds across major Kenyan bookmakers for the week's top fixtures.
+              </p>
+            </div>
+            <div className="step-card">
+              <div className="step-num">03</div>
+              <h3 className="step-title">Bet with the Full Picture</h3>
+              <p className="step-desc">
+                Place your bet knowing exactly what tax and fees will take off the top — no surprises at withdrawal.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Trust & Transparency Block */}
-      <section className="section" aria-labelledby="trust-section-heading">
-        <div className="container full-width-container">
-          <TrustBlock />
-        </div>
-      </section>
-
-      {/* FAQ Accordion */}
+      {/* 8. FAQ Section */}
       <section className="section section-alt" aria-labelledby="faq-heading">
         <div className="container full-width-container">
           <div className="section-header">
@@ -288,7 +319,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Final Conversion CTA */}
+      {/* 9. Final CTA Banner */}
       <section className="section final-cta-section" aria-labelledby="final-cta-heading">
         <div className="container full-width-container">
           <div className="final-cta-card">
@@ -296,12 +327,11 @@ export default function HomePage() {
               Know Your Numbers Before You Bet
             </h2>
             <p className="final-cta-desc">
-              Join BetFactor free and start comparing odds, calculating real payouts, and spotting arbitrage opportunities today.
+              Free, no signup, no catch. Calculate your real take-home in under 10 seconds.
             </p>
             <Link href="/#calculator" className="btn-primary-large">
-              Get Free Access →
+              Calculate My Payout →
             </Link>
-            <p className="final-cta-sub">No credit card required. Instant M-Pesa access.</p>
           </div>
         </div>
       </section>
