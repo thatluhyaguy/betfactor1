@@ -84,3 +84,11 @@ model ArbitrageOpportunity {
   @@index([matchSlug])
   @@index([expiredAt])
 }
+
+model ArbReport {
+  id        String   @id @default(uuid())
+  matchSlug String
+  createdAt DateTime @default(now())
+
+  @@index([matchSlug])
+}

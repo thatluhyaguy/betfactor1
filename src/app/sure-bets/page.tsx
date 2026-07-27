@@ -1,42 +1,35 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import ArbFeed from '@/components/surebets/ArbFeed';
 
 export const metadata: Metadata = {
-  title: 'Risk-Free Arbitrage Betting (Coming Soon) | BetFactor Kenya',
+  title: 'Sure Bets — Live Arbitrage Opportunities | BetFactor Kenya',
   description:
-    'Automated live odds scanning for sure bets across SportPesa, Betika, Odibets, Mozzart, and 1xBet is in active development. Sign up for launch notifications.',
+    'Live arbitrage scanner across SportPesa, Betika, Odibets, Mozzart, and 1xBet. See guaranteed-profit opportunities with margin %, bookmakers, and real-time data age.',
 };
 
 export default function SureBetsPage() {
   return (
     <div className="static-page">
       <div className="container full-width-container">
-        {/* Hero */}
-        <div className="page-header" style={{ maxWidth: '820px' }}>
-          <span className="page-tag">COMING SOON</span>
-          <h1 className="page-title">
-            Risk-Free Arbitrage Betting — Live Scanning Launching Soon
-          </h1>
-          <p className="page-lead">
-            BetFactor is building an automated scanner across SportPesa, Betika, Odibets, Mozzart, and 1xBet to catch moments when combined odds guarantee a profit regardless of match outcome. It's not live yet — here's what it will do, and how to get notified the moment it is.
-          </p>
 
-          <form action="/signup" className="hero-ctas-row" style={{ justifyContent: 'center', marginTop: '28px' }}>
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              className="calc-input"
-              style={{ maxWidth: '340px', fontSize: '0.95rem', padding: '12px 16px' }}
-              required
-            />
-            <button type="submit" className="btn-primary-large" style={{ padding: '12px 28px', fontSize: '0.95rem' }}>
-              Notify me when it launches →
-            </button>
-          </form>
+        {/* Page Header */}
+        <div className="page-header" style={{ maxWidth: '860px' }}>
+          <span className="page-tag">LIVE ARBITRAGE SCANNER</span>
+          <h1 className="page-title">Sure Bets — Guaranteed-Profit Opportunities</h1>
+          <p className="page-lead">
+            When bookmakers price the same match differently enough, you can place stakes across all outcomes and profit regardless of the result. The feed below updates every 25 seconds. If it shows zero opportunities, the market is currently too tight — check back shortly.
+          </p>
         </div>
 
-        <div className="content-body" style={{ maxWidth: '860px', marginTop: '48px' }}>
-          {/* Section: What Is Arbitrage Betting? */}
+        {/* Live Arb Feed */}
+        <section className="arb-feed-section" aria-label="Live arbitrage opportunities">
+          <ArbFeed />
+        </section>
+
+        {/* Explainer below the live feed */}
+        <div className="content-body" style={{ maxWidth: '860px', marginTop: '64px' }}>
+
           <div className="content-section">
             <h2>The Math Behind a "Sure Bet"</h2>
             <p>
@@ -77,18 +70,6 @@ export default function SureBetsPage() {
             </p>
           </div>
 
-          {/* Section: Why This Needs Automation */}
-          <div className="content-section">
-            <h2>Why We're Not Just Publishing a List</h2>
-            <p>
-              Real arbitrage windows are narrow — odds shift the moment enough people bet into them, and by the time three bookmakers' prices are manually compared, the opportunity is often gone. That's why this page isn't live yet: doing this properly means constantly scanning odds in near real time, not checking by hand once an hour.
-            </p>
-            <p>
-              We're building that scanning infrastructure now. When it launches, this page will show active opportunities with margins updating continuously, plus a per-match calculator to split your stake correctly.
-            </p>
-          </div>
-
-          {/* Section: Know the Risk Before You Start */}
           <div className="content-section">
             <h2>One Thing to Understand Going In</h2>
             <p>
@@ -96,27 +77,13 @@ export default function SureBetsPage() {
             </p>
           </div>
 
-          {/* Section: CTA */}
-          <div className="social-proof-card" style={{ textAlign: 'center', marginTop: '32px' }}>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)' }}>
-              Be First to Know
-            </h3>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '20px' }}>
-              Live scanning is in active development. Leave your email and we'll notify you the moment it's ready — no spam, one email at launch.
+          <div className="content-section">
+            <h2>About the Stake Calculator</h2>
+            <p>
+              Each opportunity card has a locked <strong>Stake Calculator</strong> button. This will calculate the exact split across bookmakers for any total stake size, accounting for Kenya's 5% withholding tax and M-Pesa fees, so your guaranteed profit figure is the actual amount hitting your phone — not the gross figure. This unlocks with the upcoming Member plan. Use the <Link href="/calculator" className="inline-link">Net Payout Calculator</Link> for manual estimates in the meantime.
             </p>
-            <form action="/signup" className="hero-ctas-row" style={{ justifyContent: 'center' }}>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="calc-input"
-                style={{ maxWidth: '300px', fontSize: '0.95rem', padding: '12px 16px' }}
-                required
-              />
-              <button type="submit" className="btn-primary-large" style={{ padding: '12px 24px', fontSize: '0.95rem' }}>
-                Notify Me →
-              </button>
-            </form>
           </div>
+
         </div>
       </div>
     </div>
