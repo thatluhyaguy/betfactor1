@@ -17,17 +17,20 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Links */}
+        {/* Links to all distinct pages */}
         <div className="footer-links">
           <div className="footer-col">
-            <h3 className="footer-col-title">Tools</h3>
-            <Link href="/#calculator" className="footer-link">Net Payout Calculator</Link>
-            <Link href="/#matches" className="footer-link">Best Odds Comparison</Link>
+            <h3 className="footer-col-title">Tools &amp; Odds</h3>
+            <Link href="/calculator" className="footer-link">Net Payout Calculator</Link>
+            <Link href="/odds" className="footer-link">Odds Comparison</Link>
+            <Link href="/sure-bets" className="footer-link">⚡ Sure Bets (Arbitrage)</Link>
           </div>
           <div className="footer-col">
-            <h3 className="footer-col-title">Information</h3>
+            <h3 className="footer-col-title">Information &amp; Access</h3>
+            <Link href="/pricing" className="footer-link">Pricing</Link>
             <Link href="/how-it-works" className="footer-link">How It Works</Link>
             <Link href="/about" className="footer-link">About &amp; Disclaimer</Link>
+            <Link href="/signup" className="footer-link">Join Waitlist</Link>
           </div>
         </div>
       </div>

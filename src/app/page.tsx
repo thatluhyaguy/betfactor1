@@ -36,10 +36,10 @@ export default function HomePage() {
               </p>
 
               <div className="hero-ctas-row">
-                <Link href="/#calculator" className="btn-primary-large">
+                <Link href="/calculator" className="btn-primary-large">
                   Calculate My Payout →
                 </Link>
-                <Link href="/#how-the-math-works" className="btn-secondary-large">
+                <Link href="/how-it-works" className="btn-secondary-large">
                   See how the math works ↓
                 </Link>
               </div>
@@ -329,7 +329,7 @@ export default function HomePage() {
             <p className="final-cta-desc">
               Free, no signup, no catch. Calculate your real take-home in under 10 seconds.
             </p>
-            <Link href="/#calculator" className="btn-primary-large">
+            <Link href="/calculator" className="btn-primary-large">
               Calculate My Payout →
             </Link>
           </div>
