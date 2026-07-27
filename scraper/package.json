@@ -1,0 +1,23 @@
+{
+  "name": "betfactor-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BetFactor live odds scraper — deployed to Railway or Fly.io",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "ts-node --esm index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^16.4.5",
+    "ioredis": "^5.3.2",
+    "playwright": "^1.44.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}

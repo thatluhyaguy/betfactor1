@@ -1,0 +1,86 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id               String              @id @default(uuid())
+  emailOrPhone     String              @unique
+  passwordHash     String
+  tier             String              @default("FREE") // "FREE" | "MEMBER"
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  savedMatches     SavedMatch[]
+  calculatorHist   CalculatorHistory[]
+  subscriptions    Subscription[]
+}
+
+model SavedMatch {
+  id        String   @id @default(uuid())
+  userId    String
+  matchSlug String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, matchSlug])
+}
+
+model CalculatorHistory {
+  id               String   @id @default(uuid())
+  userId           String
+  matchSlug        String?
+  totalStake       Float
+  oddsSummary      String   // JSON stringified odds/bookmakers
+  guaranteedProfit Float
+  netProfit        Float
+  resultType       String   // "ARBITRAGE" | "PAYOUT"
+  createdAt        DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id              String   @id @default(uuid())
+  userId          String
+  mpesaCheckoutId String?
+  phoneNumber     String
+  amount          Float
+  status          String   // "PENDING" | "COMPLETED" | "FAILED"
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OddsSnapshot {
+  id        String   @id @default(uuid())
+  matchSlug String
+  bookmaker String
+  homeOdds  Float
+  drawOdds  Float
+  awayOdds  Float
+  scrapedAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([matchSlug, bookmaker])
+  @@index([scrapedAt])
+}
+
+model ArbitrageOpportunity {
+  id                  String    @id @default(uuid())
+  matchSlug           String
+  margin              Float
+  bestHomeBookmaker   String
+  bestHomeOdds        Float
+  bestDrawBookmaker   String
+  bestDrawOdds        Float
+  bestAwayBookmaker   String
+  bestAwayOdds        Float
+  detectedAt          DateTime  @default(now())
+  expiredAt           DateTime?
+
+  @@index([matchSlug])
+  @@index([expiredAt])
+}

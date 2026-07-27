@@ -1,0 +1,93 @@
+[
+  {
+    "slug": "arsenal-vs-chelsea",
+    "homeTeam": "Arsenal",
+    "awayTeam": "Chelsea",
+    "competition": "Premier League",
+    "kickoff": "2026-08-16T14:00:00Z",
+    "odds": [
+      { "bookmaker": "SportPesa", "home": 2.10, "draw": 3.40, "away": 3.20 },
+      { "bookmaker": "Betika", "home": 2.05, "draw": 3.50, "away": 3.30 },
+      { "bookmaker": "Odibets", "home": 2.15, "draw": 3.35, "away": 3.15 }
+    ],
+    "lastUpdated": "2026-07-26T09:00:00Z"
+  },
+  {
+    "slug": "man-city-vs-liverpool",
+    "homeTeam": "Manchester City",
+    "awayTeam": "Liverpool",
+    "competition": "Premier League",
+    "kickoff": "2026-08-22T16:30:00Z",
+    "odds": [
+      { "bookmaker": "SportPesa", "home": 1.95, "draw": 3.60, "away": 3.80 },
+      { "bookmaker": "Betika", "home": 1.90, "draw": 3.65, "away": 3.90 },
+      { "bookmaker": "Odibets", "home": 2.00, "draw": 3.55, "away": 3.75 }
+    ],
+    "lastUpdated": "2026-07-26T09:00:00Z"
+  },
+  {
+    "slug": "real-madrid-vs-barcelona",
+    "homeTeam": "Real Madrid",
+    "awayTeam": "Barcelona",
+    "competition": "La Liga",
+    "kickoff": "2026-08-29T19:00:00Z",
+    "odds": [
+      { "bookmaker": "SportPesa", "home": 2.30, "draw": 3.30, "away": 2.95 },
+      { "bookmaker": "Betika", "home": 2.25, "draw": 3.40, "away": 3.05 },
+      { "bookmaker": "Odibets", "home": 2.35, "draw": 3.25, "away": 2.90 }
+    ],
+    "lastUpdated": "2026-07-26T09:00:00Z"
+  },
+  {
+    "slug": "man-united-vs-tottenham",
+    "homeTeam": "Manchester United",
+    "awayTeam": "Tottenham",
+    "competition": "Premier League",
+    "kickoff": "2026-08-15T14:00:00Z",
+    "odds": [
+      { "bookmaker": "SportPesa", "home": 2.40, "draw": 3.20, "away": 2.80 },
+      { "bookmaker": "Betika", "home": 2.35, "draw": 3.30, "away": 2.90 },
+      { "bookmaker": "Odibets", "home": 2.45, "draw": 3.15, "away": 2.75 }
+    ],
+    "lastUpdated": "2026-07-26T09:00:00Z"
+  },
+  {
+    "slug": "psg-vs-bayern-munich",
+    "homeTeam": "PSG",
+    "awayTeam": "Bayern Munich",
+    "competition": "UEFA Champions League",
+    "kickoff": "2026-09-16T19:00:00Z",
+    "odds": [
+      { "bookmaker": "SportPesa", "home": 2.50, "draw": 3.40, "away": 2.60 },
+      { "bookmaker": "Betika", "home": 2.45, "draw": 3.45, "away": 2.65 },
+      { "bookmaker": "Odibets", "home": 2.55, "draw": 3.35, "away": 2.55 }
+    ],
+    "lastUpdated": "2026-07-26T09:00:00Z"
+  },
+  {
+    "slug": "chelsea-vs-man-united",
+    "homeTeam": "Chelsea",
+    "awayTeam": "Manchester United",
+    "competition": "Premier League",
+    "kickoff": "2026-09-19T14:00:00Z",
+    "odds": [
+      { "bookmaker": "SportPesa", "home": 2.20, "draw": 3.35, "away": 3.10 },
+      { "bookmaker": "Betika", "home": 2.15, "draw": 3.45, "away": 3.20 },
+      { "bookmaker": "Odibets", "home": 2.25, "draw": 3.30, "away": 3.05 }
+    ],
+    "lastUpdated": "2026-07-26T09:00:00Z"
+  },
+  {
+    "slug": "liverpool-vs-arsenal",
+    "homeTeam": "Liverpool",
+    "awayTeam": "Arsenal",
+    "competition": "Premier League",
+    "kickoff": "2026-09-21T16:30:00Z",
+    "odds": [
+      { "bookmaker": "SportPesa", "home": 1.85, "draw": 3.70, "away": 4.00 },
+      { "bookmaker": "Betika", "home": 1.80, "draw": 3.80, "away": 4.10 },
+      { "bookmaker": "Odibets", "home": 1.90, "draw": 3.65, "away": 3.95 }
+    ],
+    "lastUpdated": "2026-07-26T09:00:00Z"
+  }
+]
