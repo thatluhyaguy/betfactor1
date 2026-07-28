@@ -18,17 +18,23 @@ class RedisService {
         const isTLS = url.startsWith('rediss://');
 
         this.client = new Redis(url, {
-          maxRetriesPerRequest: 3,
+          lazyConnect: true,
+          connectTimeout: 2000,
+          commandTimeout: 1500,
+          maxRetriesPerRequest: 1,
           enableReadyCheck: false,
           retryStrategy(times: number) {
-            return Math.min(times * 100, 3000);
+            return Math.min(times * 100, 1500);
           },
           tls: isTLS ? { rejectUnauthorized: false } : undefined,
         });
 
+        this.client.connect().catch(() => { /* handled by error event */ });
+
         this.client.on('error', (err: any) => {
-          if (!err.message?.includes('ECONNRESET') && !err.message?.includes('ETIMEDOUT')) {
-            console.warn('[Redis Frontend] Client error:', err.message);
+          const msg = err.message ?? '';
+          if (!msg.includes('ECONNRESET') && !msg.includes('ETIMEDOUT') && !msg.includes('EPIPE') && !msg.includes('command option timeout')) {
+            console.warn('[Redis Frontend] Client error:', msg);
           }
         });
       } catch (err: any) {

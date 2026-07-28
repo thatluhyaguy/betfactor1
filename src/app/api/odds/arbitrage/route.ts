@@ -114,12 +114,19 @@ function getSeedOpportunities(): ArbitrageOpportunityItem[] {
   ];
 }
 
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, fallback: T): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs)),
+  ]);
+}
+
 export async function GET() {
   try {
-    // ── 1. Redis fast path ──────────────────────────────────────────────────
+    // ── 1. Redis fast path (1.5s timeout ceiling) ───────────────────────────
     let redisArbs: any[] = [];
     try {
-      redisArbs = await redisService.getActiveArbitrages();
+      redisArbs = await withTimeout(redisService.getActiveArbitrages(), 1500, []);
     } catch (redisErr: any) {
       console.warn('[API] Redis error:', redisErr.message);
     }
@@ -149,14 +156,18 @@ export async function GET() {
       );
     }
 
-    // ── 2. Postgres fallback ────────────────────────────────────────────────
+    // ── 2. Postgres fallback (1.5s timeout ceiling) ─────────────────────────
     let dbArbs: any[] = [];
     try {
-      dbArbs = await prisma.arbitrageOpportunity.findMany({
-        where: { expiredAt: null },
-        orderBy: { margin: 'desc' },
-        take: 20,
-      });
+      dbArbs = await withTimeout(
+        prisma.arbitrageOpportunity.findMany({
+          where: { expiredAt: null },
+          orderBy: { margin: 'desc' },
+          take: 20,
+        }),
+        1500,
+        []
+      );
     } catch (dbErr: any) {
       console.warn('[API] Postgres error:', dbErr.message);
     }

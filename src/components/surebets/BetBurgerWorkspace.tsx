@@ -228,7 +228,7 @@ export default function BetBurgerWorkspace({ initialType = 'live' }: WorkspacePr
             <span className="bb-feed-count">{filteredOpportunities.length} arbs found</span>
           </div>
 
-          {isLoading ? (
+          {isLoading && !data ? (
             <div className="bb-loading">Scanning live odds across bookmakers…</div>
           ) : filteredOpportunities.length === 0 ? (
             <div className="bb-empty">
