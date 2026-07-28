@@ -4,72 +4,99 @@ import Link from 'next/link';
 import { prisma } from '@/lib/db';
 
 async function getUserFromSession() {
-  const cookieStore = await cookies();
-  const adminSession = cookieStore.get('admin_session');
-  const userSession = cookieStore.get('user_session');
+  try {
+    const cookieStore = await cookies();
+    const adminSession = cookieStore.get('admin_session');
+    const userSession = cookieStore.get('user_session');
 
-  if (adminSession?.value === 'authenticated') {
-    return { id: 'admin', emailOrPhone: 'admin@betfactor.co.ke', tier: 'ADMIN' };
-  }
-
-  if (userSession?.value) {
-    try {
-      const parsed = JSON.parse(userSession.value);
-      return parsed;
-    } catch {
-      return null;
+    if (adminSession?.value === 'authenticated') {
+      return { id: 'admin', emailOrPhone: 'admin@betfactor.co.ke', tier: 'ADMIN' };
     }
-  }
 
-  return null;
+    if (userSession?.value) {
+      try {
+        const parsed = JSON.parse(userSession.value);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            id: String(parsed.id ?? ''),
+            emailOrPhone: String(parsed.emailOrPhone ?? ''),
+            tier: String(parsed.tier ?? 'FREE'),
+          };
+        }
+      } catch {
+        return null;
+      }
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 /** Extract a friendly display name from email or phone */
-function getDisplayName(emailOrPhone: string, tier: string): string {
+function getDisplayName(emailOrPhone?: string, tier?: string): string {
   if (tier === 'ADMIN') return 'Admin';
-  // Email: take the part before @, capitalize first letter
+  if (!emailOrPhone) return '';
   if (emailOrPhone.includes('@')) {
-    const localPart = emailOrPhone.split('@')[0];
-    // Handle dot/underscore/dash separators — take only the first segment
-    const firstName = localPart.split(/[._-]/)[0];
+    const localPart = emailOrPhone.split('@')[0] || '';
+    const firstName = localPart.split(/[._-]/)[0] || '';
+    if (!firstName) return '';
     return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
   }
-  // Phone number — no name available, return empty so we use the fallback greeting
   return '';
 }
 
 export default async function DashboardPage() {
-  const user = await getUserFromSession();
-  if (!user) redirect('/login');
+  let user: { id: string; emailOrPhone: string; tier: string } | null = null;
+  try {
+    user = await getUserFromSession();
+  } catch {
+    user = null;
+  }
+
+  if (!user || !user.id) redirect('/login');
 
   const displayName = getDisplayName(user.emailOrPhone, user.tier);
-
-  // Admin uses a synthetic id of 'admin' — skip real DB queries to avoid
-  // invalid foreign-key lookups and missing-table crashes on production.
   const isAdmin = user.tier === 'ADMIN';
 
-  // All queries wrapped in try/catch so a missing table on production
-  // (e.g. AlertSubscription not yet migrated) degrades to empty data
-  // instead of a 500 crash.
-  const savedMatches = isAdmin ? [] : await (async () => {
-    try { return await prisma.savedMatch.findMany({ where: { userId: user.id }, take: 10 }); }
-    catch { return []; }
-  })();
+  let savedMatches: any[] = [];
+  let calculatorHistory: any[] = [];
+  let alertSub: any = null;
 
-  const calculatorHistory = isAdmin ? [] : await (async () => {
+  if (!isAdmin) {
     try {
-      return await prisma.calculatorHistory.findMany({
+      savedMatches = await prisma.savedMatch.findMany({
+        where: { userId: user.id },
+        take: 10,
+      });
+    } catch (e) {
+      console.error('[Dashboard] Error fetching saved matches:', e);
+      savedMatches = [];
+    }
+
+    try {
+      calculatorHistory = await prisma.calculatorHistory.findMany({
         where: { userId: user.id },
         orderBy: { createdAt: 'desc' },
         take: 10,
       });
-    } catch { return []; }
-  })();
+    } catch (e) {
+      console.error('[Dashboard] Error fetching calculator history:', e);
+      calculatorHistory = [];
+    }
 
-  const alertSub = isAdmin ? null : await (async () => {
-    try { return await prisma.alertSubscription.findUnique({ where: { userId: user.id } }); }
-    catch { return null; }
-  })();
+    try {
+      alertSub = await prisma.alertSubscription.findUnique({
+        where: { userId: user.id },
+      });
+    } catch (e) {
+      console.error('[Dashboard] Error fetching alert subscription:', e);
+      alertSub = null;
+    }
+  }
+
+  const minMargin = typeof alertSub?.minMargin === 'number' ? alertSub.minMargin : 0.01;
 
   return (
     <div className="static-page">
@@ -77,14 +104,14 @@ export default async function DashboardPage() {
         {/* Header */}
         <div className="page-header" style={{ marginBottom: '32px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div>
-            <span className="page-tag">{user.tier === 'ADMIN' ? 'ADMIN VIEW' : 'MY DASHBOARD'}</span>
+            <span className="page-tag">{isAdmin ? 'ADMIN VIEW' : 'MY DASHBOARD'}</span>
             <h1 className="page-title">
               {displayName
                 ? `Welcome back, ${displayName}! 👋`
                 : 'Welcome back! 👋'}
             </h1>
             <p className="page-lead">
-              {user.tier === 'ADMIN'
+              {isAdmin
                 ? 'You are viewing the dashboard as Admin. All member features are unlocked.'
                 : 'Track your saved odds, calculate net payouts, and manage your subscription.'}
             </p>
@@ -104,7 +131,7 @@ export default async function DashboardPage() {
           <div className="dash-card sb-calc-card" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h2 className="dash-card-title" style={{ fontSize: '1.1rem', margin: 0 }}>Subscription Status</h2>
-              <span className={`sb-badge ${user.tier === 'MEMBER' || user.tier === 'ADMIN' ? 'sb-badge-green' : ''}`}>
+              <span className={`sb-badge ${user.tier === 'MEMBER' || isAdmin ? 'sb-badge-green' : ''}`}>
                 {user.tier} TIER
               </span>
             </div>
@@ -147,7 +174,7 @@ export default async function DashboardPage() {
               <div style={{ fontSize: '0.85rem', color: '#94A3B8' }}>
                 <p>Status: {alertSub?.enabled ? '🟢 Active' : '⚪ Disabled'}</p>
                 <p style={{ marginTop: '4px' }}>
-                  Minimum margin threshold: <strong>{((alertSub?.minMargin ?? 0.01) * 100).toFixed(1)}%</strong>
+                  Minimum margin threshold: <strong>{(minMargin * 100).toFixed(1)}%</strong>
                 </p>
               </div>
             )}
@@ -166,9 +193,9 @@ export default async function DashboardPage() {
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
                 {savedMatches.map((m) => (
-                  <div key={m.id} style={{ background: '#0F172A', borderRadius: '8px', padding: '16px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div key={m.id || Math.random()} style={{ background: '#0F172A', borderRadius: '8px', padding: '16px', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <strong style={{ fontSize: '0.95rem', color: '#38BDF8', display: 'block', marginBottom: '8px' }}>
-                      {m.matchSlug}
+                      {m.matchSlug ?? 'Saved Match'}
                     </strong>
                     <Link href="/sure-bets/live" className="sb-btn sb-btn-outline" style={{ padding: '4px 10px', fontSize: '0.78rem', textAlign: 'center', display: 'block' }}>
                       View Live Odds →
@@ -203,20 +230,28 @@ export default async function DashboardPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {calculatorHistory.map((c) => (
-                      <tr key={c.id}>
-                        <td style={{ color: '#94A3B8' }}>{c.createdAt.toLocaleDateString()}</td>
-                        <td className="font-mono" style={{ fontWeight: 700 }}>KES {c.totalStake.toLocaleString()}</td>
-                        <td className="font-mono">KES {(c.totalStake + c.guaranteedProfit).toLocaleString()}</td>
-                        <td className="font-mono" style={{ color: '#4ADE80' }}>+KES {c.guaranteedProfit.toLocaleString()}</td>
-                        <td className="font-mono text-positive" style={{ fontWeight: 800 }}>+KES {c.netProfit.toLocaleString()}</td>
-                        <td>
-                          <Link href="/calculator" className="sb-btn sb-btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>
-                            Re-calculate
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
+                    {calculatorHistory.map((c) => {
+                      const stake = typeof c.totalStake === 'number' ? c.totalStake : 0;
+                      const gProfit = typeof c.guaranteedProfit === 'number' ? c.guaranteedProfit : 0;
+                      const nProfit = typeof c.netProfit === 'number' ? c.netProfit : 0;
+                      const gross = stake + gProfit;
+                      const dateStr = c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A';
+
+                      return (
+                        <tr key={c.id || Math.random()}>
+                          <td style={{ color: '#94A3B8' }}>{dateStr}</td>
+                          <td className="font-mono" style={{ fontWeight: 700 }}>KES {stake.toLocaleString()}</td>
+                          <td className="font-mono">KES {gross.toLocaleString()}</td>
+                          <td className="font-mono" style={{ color: '#4ADE80' }}>+KES {gProfit.toLocaleString()}</td>
+                          <td className="font-mono text-positive" style={{ fontWeight: 800 }}>+KES {nProfit.toLocaleString()}</td>
+                          <td>
+                            <Link href="/calculator" className="sb-btn sb-btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>
+                              Re-calculate
+                            </Link>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
