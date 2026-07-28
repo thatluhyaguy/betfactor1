@@ -41,10 +41,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refresh = useCallback(async () => {
     try {
-      const res = await fetch('/api/auth/me', { cache: 'no-store' });
+      // credentials: 'include' ensures cookies are sent with the request
+      const res = await fetch('/api/auth/me', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!res.ok) {
+        setState((s) => ({ ...s, loading: false }));
+        return;
+      }
       const data = await res.json();
       setState({
-        role: data.role,
+        role: data.role ?? 'guest',
         isAdmin: data.isAdmin ?? false,
         isUser: data.isUser ?? false,
         user: data.user ?? null,
@@ -56,7 +64,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch {
+      // ignore
+    }
     setState({ role: 'guest', isAdmin: false, isUser: false, user: null, loading: false });
     router.push('/');
   }, [router]);
