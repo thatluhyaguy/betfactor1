@@ -17,29 +17,42 @@ export class RedisService {
         const isTLS = url.startsWith('rediss://');
 
         this.redisClient = new Redis(url, {
-          // DO NOT use lazyConnect — it breaks Upstash TLS handshake
-          maxRetriesPerRequest: null, // null = keep retrying indefinitely on each command
+          // lazyConnect: only open the TCP socket on the first real command,
+          // not at construction time — prevents the phantom connect/EPIPE loop
+          // that occurs when ioredis tries to connect before the network is ready.
+          lazyConnect: true,
+          // Cap retries per command to 3; null means infinite retries which
+          // causes ioredis to hammer reconnects in a tight loop on EPIPE.
+          maxRetriesPerRequest: 3,
           enableReadyCheck: false,    // required for Upstash
           retryStrategy(times: number) {
-            // Back off: 200ms, 400ms ... max 5s
+            // Exponential back-off: 200ms → 400ms → ... → 5s ceiling
             return Math.min(times * 200, 5000);
           },
           tls: isTLS ? { rejectUnauthorized: false } : undefined,
         });
 
+        // Explicitly connect once — this makes lazyConnect safe for Upstash TLS
+        this.redisClient.connect().catch(() => { /* handled by error event below */ });
+
         this.redisClient.on('connect', () => {
-          console.log('[Redis] Connected successfully.');
+          console.log('[Redis] Connected.');
         });
 
         this.redisClient.on('ready', () => {
-          console.log('[Redis] Client ready.');
+          console.log('[Redis] Ready.');
         });
 
         this.redisClient.on('error', (err: any) => {
-          // Log but don't crash — in-memory fallback is active
-          if (!err.message?.includes('ECONNRESET') && !err.message?.includes('ETIMEDOUT')) {
-            console.warn('[Redis] Error:', err.message);
-          }
+          // Suppress transient reconnect noise; memory fallback is active
+          const msg = err.message ?? '';
+          if (
+            msg.includes('ECONNRESET') ||
+            msg.includes('ETIMEDOUT') ||
+            msg.includes('EPIPE') ||
+            msg.includes('ECONNREFUSED')
+          ) return;
+          console.warn('[Redis] Error:', msg);
         });
 
       } catch (err: any) {

@@ -39,9 +39,9 @@ export async function scrapeBetika(page: Page): Promise<ScrapedMatchOdds[]> {
   });
 
   try {
-    // Navigate to the live/upcoming soccer page
+    // Navigate to the live/upcoming soccer page with domcontentloaded instead of networkidle
     await page.goto('https://www.betika.com/en-ke/s/upcoming/1', {
-      waitUntil: 'networkidle',
+      waitUntil: 'domcontentloaded',
       timeout: 30000,
     });
   } catch (err: any) {

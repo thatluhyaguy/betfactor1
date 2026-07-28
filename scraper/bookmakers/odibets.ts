@@ -39,7 +39,7 @@ export async function scrapeOdibets(page: Page): Promise<ScrapedMatchOdds[]> {
 
   try {
     await page.goto('https://www.odibets.com/soccer', {
-      waitUntil: 'networkidle',
+      waitUntil: 'domcontentloaded',
       timeout: 30000,
     });
   } catch (err: any) {

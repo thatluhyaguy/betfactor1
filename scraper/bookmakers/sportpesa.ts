@@ -39,9 +39,9 @@ export async function scrapeSportPesa(page: Page): Promise<ScrapedMatchOdds[]> {
   });
 
   try {
-    // Try SportPesa's upcoming matches section
+    // Try SportPesa's upcoming matches section with domcontentloaded
     await page.goto('https://www.sportpesa.co.ke/sports/football', {
-      waitUntil: 'networkidle',
+      waitUntil: 'domcontentloaded',
       timeout: 30000,
     });
   } catch (err: any) {
