@@ -6,7 +6,7 @@ export type ArbOpportunity = {
   homeTeam: string;
   awayTeam: string;
   league: string;
-  margin: number; // e.g. 0.012 = 1.2%
+  margin: number; // percentage, e.g. 2.34 = 2.34%
   bestHomeBookmaker: string;
   bestHomeOdds: number;
   bestDrawBookmaker: string;
@@ -29,9 +29,9 @@ function friendlyBookie(raw: string) {
 }
 
 export default function ArbCard({ arb }: { arb: ArbOpportunity }) {
-  const marginPct = (arb.margin * 100).toFixed(2);
+  const marginPct = arb.margin.toFixed(2);
   // Colour-code the margin badge: <1% amber, ≥1% green
-  const marginClass = arb.margin >= 0.01 ? 'arb-margin-high' : 'arb-margin-low';
+  const marginClass = arb.margin >= 1 ? 'arb-margin-high' : 'arb-margin-low';
 
   return (
     <div className="arb-card">
