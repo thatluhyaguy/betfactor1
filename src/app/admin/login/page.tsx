@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const { refresh } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,10 +25,10 @@ export default function AdminLoginPage() {
       });
 
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Invalid credentials');
-      }
+      if (!res.ok) throw new Error(data.error || 'Invalid credentials');
 
+      // Refresh auth context so Navbar shows Admin link immediately
+      await refresh();
       router.push('/admin/dashboard');
     } catch (err: any) {
       setError(err.message);
@@ -38,11 +40,11 @@ export default function AdminLoginPage() {
   return (
     <div className="static-page">
       <div className="container full-width-container">
-        <div className="auth-card" style={{ maxWidth: '440px', margin: '60px auto' }}>
+        <div className="auth-card" style={{ maxWidth: '440px', margin: '80px auto' }}>
           <div className="auth-header" style={{ textAlign: 'center' }}>
             <span className="page-tag" style={{ marginBottom: '8px' }}>BETFACTOR ADMIN</span>
-            <h1 className="auth-title">Admin Portal Login</h1>
-            <p className="auth-sub">Log in to manage collected leads, users, and scraper telemetry.</p>
+            <h1 className="auth-title">Admin Portal</h1>
+            <p className="auth-sub">Authorised personnel only. Log in to manage leads and scraper telemetry.</p>
           </div>
 
           {error && (
@@ -76,14 +78,15 @@ export default function AdminLoginPage() {
               />
             </div>
 
-            <button type="submit" className="btn-primary-large" style={{ width: '100%', marginTop: '8px' }} disabled={loading}>
-              {loading ? 'Authenticating…' : 'Access Admin Dashboard →'}
+            <button
+              type="submit"
+              className="btn-primary-large"
+              style={{ width: '100%', marginTop: '8px', background: 'linear-gradient(135deg, #92400e, #f59e0b)' }}
+              disabled={loading}
+            >
+              {loading ? 'Authenticating…' : '🔑 Access Admin Dashboard →'}
             </button>
           </form>
-
-          <div className="info-box" style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.8rem' }}>
-            🔑 Default credentials: <strong>admin@betfactor.co.ke</strong> / <strong>admin123</strong>
-          </div>
         </div>
       </div>
     </div>

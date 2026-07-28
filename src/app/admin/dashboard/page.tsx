@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
+import { useAuth } from '@/context/AuthContext';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -13,16 +15,27 @@ interface LeadUser {
 }
 
 export default function AdminDashboardPage() {
-  const { data, error, mutate, isLoading } = useSWR('/api/admin/users', fetcher, {
-    refreshInterval: 15000,
-  });
+  const router = useRouter();
+  const { isAdmin, loading: authLoading, logout } = useAuth();
+
+  // Redirect if not authenticated as admin
+  useEffect(() => {
+    if (!authLoading && !isAdmin) {
+      router.replace('/admin/login');
+    }
+  }, [authLoading, isAdmin, router]);
+
+  const { data, error, mutate, isLoading } = useSWR(
+    isAdmin ? '/api/admin/users' : null,
+    fetcher,
+    { refreshInterval: 15000 }
+  );
 
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const handleToggleTier = async (userId: string, currentTier: string) => {
     const nextTier = currentTier === 'MEMBER' ? 'FREE' : 'MEMBER';
     setUpdatingId(userId);
-
     try {
       await fetch('/api/admin/users', {
         method: 'PATCH',
@@ -36,6 +49,15 @@ export default function AdminDashboardPage() {
       setUpdatingId(null);
     }
   };
+
+  // Show loading spinner while auth resolves
+  if (authLoading || !isAdmin) {
+    return (
+      <div className="static-page" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <p style={{ color: 'var(--text-secondary)' }}>Verifying admin access…</p>
+      </div>
+    );
+  }
 
   return (
     <div className="static-page">
@@ -53,6 +75,13 @@ export default function AdminDashboardPage() {
           <div style={{ display: 'flex', gap: '12px' }}>
             <button className="sb-btn sb-btn-secondary" onClick={() => mutate()}>
               🔄 Refresh Leads
+            </button>
+            <button
+              className="sb-btn sb-btn-outline"
+              onClick={logout}
+              style={{ borderColor: '#f59e0b', color: '#f59e0b' }}
+            >
+              🔑 Log Out
             </button>
           </div>
         </div>

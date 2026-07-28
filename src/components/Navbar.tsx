@@ -4,19 +4,20 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
+import { useAuth } from '@/context/AuthContext';
 
-const navItems = [
+const publicNavItems = [
   { href: '/calculator', label: 'Calculator' },
   { href: '/sure-bets', label: '📖 Surebets Info' },
   { href: '/sure-bets/prematch', label: '⚽ Prematch' },
   { href: '/sure-bets/live', label: '⚡ Live Feed', accent: true },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/admin/dashboard', label: '🔑 Admin' },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { isAdmin, isUser, user, logout, loading } = useAuth();
 
   // Close menu on route change
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function Navbar() {
 
           {/* Desktop nav links */}
           <div className="nav-links nav-desktop">
-            {navItems.map((item) => (
+            {publicNavItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -56,10 +57,37 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
+
+            {/* Admin-only link */}
+            {isAdmin && (
+              <Link href="/admin/dashboard" className="nav-link" style={{ color: '#f59e0b', fontWeight: 700 }}>
+                🔑 Admin
+              </Link>
+            )}
+
+            {/* Logged-in user dashboard */}
+            {isUser && !isAdmin && (
+              <Link href="/dashboard" className="nav-link" style={{ color: 'var(--positive)', fontWeight: 700 }}>
+                👤 My Account
+              </Link>
+            )}
+
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <ThemeToggle />
-              <Link href="/login" className="nav-link">Log In</Link>
-              <Link href="/signup" className="nav-cta">Get Access →</Link>
+              {!loading && (isAdmin || isUser) ? (
+                <button
+                  onClick={logout}
+                  className="nav-link"
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0 }}
+                >
+                  Log Out
+                </button>
+              ) : (
+                <>
+                  <Link href="/login" className="nav-link">Log In</Link>
+                  <Link href="/signup" className="nav-cta">Get Access →</Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -90,7 +118,7 @@ export default function Navbar() {
         aria-label="Navigation menu"
       >
         <div className="mobile-drawer-inner">
-          {navItems.map((item) => (
+          {publicNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -101,11 +129,38 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+
+          {/* Admin-only mobile link */}
+          {isAdmin && (
+            <Link href="/admin/dashboard" className="mobile-nav-link" style={{ color: '#f59e0b' }}>
+              🔑 Admin Dashboard
+            </Link>
+          )}
+
+          {/* User dashboard mobile link */}
+          {isUser && !isAdmin && (
+            <Link href="/dashboard" className="mobile-nav-link" style={{ color: 'var(--positive)' }}>
+              👤 My Account
+            </Link>
+          )}
+
           <div className="mobile-drawer-divider" />
-          <Link href="/login" className="mobile-nav-link">Log In</Link>
-          <Link href="/signup" className="btn-primary-large" style={{ marginTop: '8px', textAlign: 'center', display: 'block' }}>
-            Get Access →
-          </Link>
+          {!loading && (isAdmin || isUser) ? (
+            <button
+              onClick={logout}
+              className="mobile-nav-link"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'var(--text-secondary)' }}
+            >
+              Log Out
+            </button>
+          ) : (
+            <>
+              <Link href="/login" className="mobile-nav-link">Log In</Link>
+              <Link href="/signup" className="btn-primary-large" style={{ marginTop: '8px', textAlign: 'center', display: 'block' }}>
+                Get Access →
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
