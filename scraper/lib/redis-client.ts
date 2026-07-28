@@ -11,25 +11,37 @@ export class RedisService {
     if (process.env.REDIS_URL) {
       try {
         const Redis = require('ioredis');
-        this.redisClient = new Redis(process.env.REDIS_URL, {
-          maxRetriesPerRequest: 3,
+        const url = process.env.REDIS_URL;
+
+        // Upstash and other TLS Redis servers use rediss:// scheme
+        const isTLS = url.startsWith('rediss://');
+
+        this.redisClient = new Redis(url, {
+          // DO NOT use lazyConnect — it breaks Upstash TLS handshake
+          maxRetriesPerRequest: null, // null = keep retrying indefinitely on each command
+          enableReadyCheck: false,    // required for Upstash
           retryStrategy(times: number) {
-            return Math.min(times * 100, 3000);
+            // Back off: 200ms, 400ms ... max 5s
+            return Math.min(times * 200, 5000);
           },
-          lazyConnect: true,
-          tls: process.env.REDIS_URL.startsWith('rediss://')
-            ? { rejectUnauthorized: false }
-            : undefined,
+          tls: isTLS ? { rejectUnauthorized: false } : undefined,
         });
 
-        // Suppress unhandled ioredis error events from crashing node process
+        this.redisClient.on('connect', () => {
+          console.log('[Redis] Connected successfully.');
+        });
+
+        this.redisClient.on('ready', () => {
+          console.log('[Redis] Client ready.');
+        });
+
         this.redisClient.on('error', (err: any) => {
-          console.warn('[Redis] Client error (reconnecting):', err.message);
+          // Log but don't crash — in-memory fallback is active
+          if (!err.message?.includes('ECONNRESET') && !err.message?.includes('ETIMEDOUT')) {
+            console.warn('[Redis] Error:', err.message);
+          }
         });
 
-        this.redisClient.connect().catch((err: any) => {
-          console.warn('[Redis] Connection initial handshake failed, fallback active:', err.message);
-        });
       } catch (err: any) {
         console.warn('[Redis] ioredis not available, using in-memory fallback.');
       }
@@ -45,10 +57,14 @@ export class RedisService {
     return RedisService.instance;
   }
 
+  private isConnected(): boolean {
+    return this.redisClient && this.redisClient.status === 'ready';
+  }
+
   // ── Raw get/set ────────────────────────────────────────────────────────────
 
   async set(key: string, value: string, ttlSeconds: number): Promise<void> {
-    if (this.redisClient) {
+    if (this.isConnected()) {
       try {
         await this.redisClient.set(key, value, 'EX', ttlSeconds);
         return;
@@ -60,7 +76,7 @@ export class RedisService {
   }
 
   async get(key: string): Promise<string | null> {
-    if (this.redisClient) {
+    if (this.isConnected()) {
       try {
         return await this.redisClient.get(key);
       } catch (err) {
@@ -74,7 +90,7 @@ export class RedisService {
   }
 
   async keys(pattern: string): Promise<string[]> {
-    if (this.redisClient) {
+    if (this.isConnected()) {
       try {
         return await this.redisClient.keys(pattern);
       } catch (err) {
@@ -85,6 +101,13 @@ export class RedisService {
     return Array.from(memoryStore.keys()).filter(
       (k) => k.startsWith(prefix) && Date.now() <= (memoryStore.get(k)?.expiresAt ?? 0)
     );
+  }
+
+  async del(key: string): Promise<void> {
+    if (this.isConnected()) {
+      try { await this.redisClient.del(key); return; } catch { }
+    }
+    memoryStore.delete(key);
   }
 
   // ── Match odds ─────────────────────────────────────────────────────────────
@@ -130,10 +153,7 @@ export class RedisService {
   }
 
   async clearActiveArbitrage(matchSlug: string): Promise<void> {
-    if (this.redisClient) {
-      try { await this.redisClient.del(`arb:active:${matchSlug}`); } catch { }
-    }
-    memoryStore.delete(`arb:active:${matchSlug}`);
+    await this.del(`arb:active:${matchSlug}`);
   }
 
   async getActiveArbitrages(): Promise<any[]> {

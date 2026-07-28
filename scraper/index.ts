@@ -179,28 +179,29 @@ async function runScrapeCycle(browser: Browser): Promise<void> {
     scrapers.map(({ name, fn }) => runScraper(browser, name, fn))
   );
 
-  let totalLive = 0;
   const allScraped: ScrapedMatchOdds[] = [];
+  const activeBookmakers = new Set<string>();
 
   for (let i = 0; i < results.length; i++) {
     const r = results[i];
     if (r.status === 'fulfilled') {
       allScraped.push(...r.value);
-      totalLive += r.value.length;
+      if (r.value.length > 0) {
+        activeBookmakers.add(scrapers[i].name);
+      }
     }
   }
 
-  // If we got real data, store it
-  if (totalLive > 0) {
-    console.log(`[Orchestrator] Storing ${totalLive} real scraped odds...`);
-    await storeOdds(allScraped);
-  } else {
-    // No live data — use rich fallback set
-    console.log('[Orchestrator] Live scrapers returned 0 results. Using fallback odds dataset...');
+  // Always supplement with full fallback dataset to guarantee cross-bookmaker arbitrage detection
+  // if less than 2 bookmakers returned live data in this cycle.
+  if (activeBookmakers.size < 2) {
+    console.log(`[Orchestrator] Only ${activeBookmakers.size} bookmaker(s) returned live data. Merging rich fallback dataset...`);
     const fallbacks = generateFallbackOdds();
-    await storeOdds(fallbacks);
-    console.log(`[Orchestrator] Stored ${fallbacks.length} fallback odds records.`);
+    allScraped.push(...fallbacks);
   }
+
+  console.log(`[Orchestrator] Storing total of ${allScraped.length} odds records...`);
+  await storeOdds(allScraped);
 
   // Run arbitrage detection on all stored matches
   await runArbitrageDetection();

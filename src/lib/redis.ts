@@ -14,17 +14,25 @@ class RedisService {
       try {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         const Redis = require('ioredis');
-        this.client = new Redis(process.env.REDIS_URL, {
-          maxRetriesPerRequest: 1,
-          lazyConnect: true,
-          tls: process.env.REDIS_URL.startsWith('rediss://') ? {} : undefined,
+        const url = process.env.REDIS_URL;
+        const isTLS = url.startsWith('rediss://');
+
+        this.client = new Redis(url, {
+          maxRetriesPerRequest: 3,
+          enableReadyCheck: false,
+          retryStrategy(times: number) {
+            return Math.min(times * 100, 3000);
+          },
+          tls: isTLS ? { rejectUnauthorized: false } : undefined,
         });
-        this.client.connect().catch(() => {
-          console.warn('[Redis] Connection failed — using in-memory fallback');
-          this.client = null;
+
+        this.client.on('error', (err: any) => {
+          if (!err.message?.includes('ECONNRESET') && !err.message?.includes('ETIMEDOUT')) {
+            console.warn('[Redis Frontend] Client error:', err.message);
+          }
         });
-      } catch {
-        console.warn('[Redis] ioredis not available — using in-memory fallback');
+      } catch (err: any) {
+        console.warn('[Redis Frontend] ioredis not available — using in-memory fallback:', err.message);
       }
     }
   }
