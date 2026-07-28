@@ -7,11 +7,11 @@ import ThemeToggle from './ThemeToggle';
 
 const navItems = [
   { href: '/calculator', label: 'Calculator' },
-  { href: '/odds', label: 'Odds' },
-  { href: '/sure-bets', label: '⚡ Sure Bets', accent: true },
+  { href: '/sure-bets', label: '📖 Surebets Info' },
+  { href: '/sure-bets/prematch', label: '⚽ Prematch' },
+  { href: '/sure-bets/live', label: '⚡ Live Feed', accent: true },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/how-it-works', label: 'How It Works' },
-  { href: '/about', label: 'About' },
+  { href: '/admin/dashboard', label: '🔑 Admin' },
 ];
 
 export default function Navbar() {
