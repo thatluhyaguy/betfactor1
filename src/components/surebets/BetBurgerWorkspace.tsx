@@ -58,7 +58,13 @@ export default function BetBurgerWorkspace({ initialType = 'live' }: WorkspacePr
     }
 
     if (selectedSport !== 'all') {
-      list = list.filter((a) => a.league?.toLowerCase().includes(selectedSport.toLowerCase()));
+      list = list.filter((a) => {
+        const l = (a.league || '').toLowerCase();
+        if (selectedSport === 'football') {
+          return l.includes('football') || l.includes('league') || l.includes('premier') || l.includes('soccer') || l.includes('psl') || l.includes('mainland');
+        }
+        return l.includes(selectedSport.toLowerCase());
+      });
     }
 
     if (sortBy === 'percent') {
