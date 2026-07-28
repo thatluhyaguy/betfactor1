@@ -3182,3 +3182,652 @@ button { font-family: inherit; }
   .arb-feed-controls { flex-direction: column; align-items: flex-start; }
   .arb-outcome { grid-template-columns: 50px 1fr auto; }
 }
+
+/* ── SUREBETS LANDING PAGE STYLING (MATCHING SCREENSHOT) ── */
+.surebets-landing {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+  padding-bottom: 64px;
+}
+
+/* 1. Hero Section */
+.sb-hero-section {
+  padding: 48px 0 24px;
+}
+.sb-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.sb-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.sb-hero-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+.sb-hero-lead {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+.sb-hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.sb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+.sb-btn-primary {
+  background: var(--accent);
+  color: #FFFFFF;
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.sb-btn-primary:hover {
+  background: var(--accent-dark);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px var(--accent-glow);
+}
+.sb-btn-secondary {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.sb-btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+.sb-btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.sb-btn-outline:hover {
+  border-color: var(--text-primary);
+}
+.sb-btn-lg {
+  padding: 16px 36px;
+  font-size: 1.05rem;
+}
+
+/* Hero Media Card */
+.sb-hero-media {
+  position: relative;
+}
+.sb-media-card {
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+.sb-media-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(225, 29, 72, 0.9);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  border-radius: 6px;
+  z-index: 2;
+}
+.sb-media-screen {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(225, 29, 72, 0.15) 0%, transparent 70%);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  padding: 24px;
+}
+.sb-play-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 0 30px var(--accent);
+  transition: transform 0.2s;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+.sb-play-btn:hover {
+  transform: scale(1.1);
+}
+.sb-media-stats {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+.sb-stat-pill {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sb-stat-label {
+  font-size: 0.72rem;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+.sb-stat-val {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* 2. Sections Shared */
+.sb-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.sb-section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.sb-section-header h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.sb-section-header p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+}
+
+/* How Section */
+.sb-how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.sb-how-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.sb-how-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+}
+.sb-how-icon {
+  font-size: 2rem;
+}
+.sb-how-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.sb-how-card p {
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.sb-reasons-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+.sb-reasons-box h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+.sb-reasons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 20px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* 3. Interactive Profit Calculator Widget */
+.sb-calc-card {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-glow);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+}
+.sb-calc-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.sb-calc-header h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.sb-calc-header p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+.sb-calc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.sb-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sb-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+.sb-slider-val {
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.sb-range-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sb-slider-minmax {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.sb-strategy-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sb-strategy-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.sb-strategy-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.sb-strat-btn {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sb-strat-btn.active {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+.sb-results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.sb-result-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.sb-res-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.sb-res-val {
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+.sb-calc-cta {
+  text-align: center;
+}
+
+/* 4. Surebet Types */
+.sb-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.sb-type-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+.sb-type-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+.sb-type-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* 5. Example & Math Proof */
+.sb-example-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.sb-table-wrapper {
+  overflow-x: auto;
+}
+.sb-example-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.sb-example-table th, .sb-example-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.sb-example-table th {
+  background: var(--bg-surface);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.sb-math-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.sb-math-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sb-math-box h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.sb-equation {
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+.sb-stake-list {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-secondary);
+}
+.sb-math-highlight {
+  background: var(--positive-glow);
+  border-color: var(--positive);
+}
+.sb-payout-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+.sb-payout-item span {
+  color: var(--text-secondary);
+  margin-right: 8px;
+}
+.sb-guaranteed-badge {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--positive-dark);
+  margin-top: 8px;
+}
+
+/* 6. Locked Preview */
+.sb-locked-container {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.sb-blurred-feed {
+  filter: blur(6px);
+  opacity: 0.5;
+  pointer-events: none;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--bg-card);
+}
+.sb-blur-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  background: var(--bg-surface);
+}
+.sb-badge-green {
+  background: var(--positive-glow);
+  color: var(--positive);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+.sb-card-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+}
+.sb-odds-row {
+  display: flex;
+  gap: 20px;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.sb-lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+.sb-lock-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  text-align: center;
+  max-width: 520px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.sb-lock-icon {
+  font-size: 3rem;
+}
+.sb-lock-box h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.sb-lock-box p {
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.sb-lock-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+/* 7. Banner Section */
+.sb-cta-banner {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-radius: var(--radius-xl);
+  padding: 48px 32px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 16px 40px var(--accent-glow);
+}
+.sb-cta-banner h2 {
+  font-size: 2.25rem;
+  font-weight: 900;
+}
+.sb-banner-price {
+  font-size: 1.2rem;
+  opacity: 0.95;
+}
+.sb-cta-banner .sb-btn-primary {
+  background: white;
+  color: var(--accent);
+}
+.sb-cta-banner .sb-btn-primary:hover {
+  background: #F8FAFC;
+  color: var(--accent-dark);
+}
+
+/* 8. FAQ Section */
+.sb-faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+.sb-faq-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  overflow: hidden;
+}
+.sb-faq-q {
+  width: 100%;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+.sb-faq-icon {
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+.sb-faq-a {
+  padding: 0 24px 20px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-top: 1px dashed var(--border);
+  padding-top: 16px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .sb-hero-grid { grid-template-columns: 1fr; }
+  .sb-how-grid { grid-template-columns: 1fr; }
+  .sb-types-grid { grid-template-columns: 1fr; }
+  .sb-results-grid { grid-template-columns: 1fr; }
+  .sb-strategy-buttons { grid-template-columns: 1fr; }
+}
