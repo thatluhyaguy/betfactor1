@@ -97,16 +97,18 @@ button { font-family: inherit; }
 .text-positive { color: var(--positive); }
 
 /* ---------- CONTAINER ---------- */
+/* ---------- CONTAINER ---------- */
 .container {
   width: 100%;
-  max-width: 1380px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 24px;
 }
 
 .full-width-container {
-  max-width: 1400px;
+  max-width: 100%;
   width: 100%;
+  padding: 0 24px;
 }
 
 
@@ -123,7 +125,8 @@ button { font-family: inherit; }
 }
 
 .nav-inner {
-  max-width: 1140px;
+  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   padding: 0 24px;
   height: 100%;
