@@ -30,7 +30,7 @@ export default function SignupPage() {
         throw new Error(data.error || 'Failed to sign up.');
       }
 
-      setMessage('🎉 Lead captured! Redirecting to surebets...');
+      setMessage('🎉 Account created! Redirecting to surebets...');
       setTimeout(() => {
         router.push('/sure-bets/live');
       }, 1500);
@@ -88,12 +88,12 @@ export default function SignupPage() {
             </div>
 
             <button type="submit" className="btn-primary-large" style={{ width: '100%', marginTop: '8px' }} disabled={loading}>
-              {loading ? 'Registering Lead…' : 'Unlock Access Now →'}
+              {loading ? 'Creating Account…' : 'Create Account & Unlock Access →'}
             </button>
           </form>
 
           <div className="info-box" style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.82rem' }}>
-            🔒 <strong>Lead collected:</strong> You will be notified instantly when new high-margin surebets land.
+            🔒 <strong>Privacy Protected:</strong> Your account is secure. You will be notified instantly when new high-margin surebets land.
           </div>
 
           <div className="auth-footer" style={{ marginTop: '16px', textAlign: 'center' }}>
