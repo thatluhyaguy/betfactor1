@@ -45,7 +45,7 @@ export default function LoginPage() {
         <div className="auth-card" style={{ maxWidth: '460px', margin: '60px auto' }}>
           <div className="auth-header">
             <h1 className="auth-title">Log In to BetFactor</h1>
-            <p className="auth-sub">Enter your M-Pesa phone number or email to access your account.</p>
+            <p className="auth-sub">Enter your phone number (+254) or username to access your account.</p>
           </div>
 
           {error && (
@@ -56,10 +56,10 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="calc-inputs" style={{ gridTemplateColumns: '1fr', gap: '16px' }}>
             <div className="input-group">
-              <label className="input-label">M-Pesa Phone Number or Email</label>
+              <label className="input-label">Phone Number (+254) or Username</label>
               <input
                 type="text"
-                placeholder="e.g. 0712345678 or name@domain.com"
+                placeholder="e.g. +254712345678 or username"
                 className="calc-input"
                 style={{ fontSize: '1rem', padding: '12px 16px' }}
                 value={emailOrPhone}

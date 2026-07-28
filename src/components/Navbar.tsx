@@ -7,17 +7,16 @@ import ThemeToggle from './ThemeToggle';
 import { useAuth } from '@/context/AuthContext';
 
 const publicNavItems = [
-  { href: '/calculator', label: 'Calculator' },
-  { href: '/sure-bets', label: '📖 Surebets Info' },
-  { href: '/sure-bets/prematch', label: '⚽ Prematch' },
-  { href: '/sure-bets/live', label: '⚡ Live Feed', accent: true },
+  { href: '/sure-bets', label: 'Surebets' },
+  { href: '/sure-bets/prematch', label: 'Prematch' },
+  { href: '/sure-bets/live', label: 'Live Feed', accent: true },
   { href: '/pricing', label: 'Pricing' },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { isAdmin, isUser, user, logout, loading } = useAuth();
+  const { isAdmin, isUser, logout, loading } = useAuth();
 
   // Close menu on route change
   useEffect(() => {
@@ -37,15 +36,15 @@ export default function Navbar() {
   return (
     <>
       <nav className="navbar" role="navigation" aria-label="Main navigation">
-        <div className="nav-inner">
-          {/* Logo */}
-          <Link href="/" className="nav-logo" aria-label="BetFactor home">
+        <div className="nav-inner" style={{ justifyContent: 'space-between' }}>
+          {/* Logo — Pushed to far top-left */}
+          <Link href="/" className="nav-logo" aria-label="BetFactor home" style={{ marginRight: 'auto' }}>
             <span className="logo-bet">Bet</span>
             <span className="logo-factor">Factor</span>
           </Link>
 
           {/* Desktop nav links */}
-          <div className="nav-links nav-desktop">
+          <div className="nav-links nav-desktop" style={{ gap: '20px' }}>
             {publicNavItems.map((item) => (
               <Link
                 key={item.href}
@@ -58,14 +57,14 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Admin-only links: Admin Panel & View as Bettor Dashboard */}
+            {/* Admin-only links */}
             {isAdmin && (
               <>
                 <Link href="/admin/dashboard" className="nav-link" style={{ color: '#f59e0b', fontWeight: 700 }}>
-                  🔑 Admin Panel
+                  Admin Panel
                 </Link>
                 <Link href="/dashboard" className="nav-link" style={{ color: 'var(--positive)', fontWeight: 600 }}>
-                  👤 My Dashboard
+                  My Dashboard
                 </Link>
               </>
             )}
@@ -73,11 +72,12 @@ export default function Navbar() {
             {/* Regular logged-in user dashboard */}
             {isUser && !isAdmin && (
               <Link href="/dashboard" className="nav-link" style={{ color: 'var(--positive)', fontWeight: 700 }}>
-                👤 My Account
+                My Account
               </Link>
             )}
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {/* Right-aligned action buttons: Theme toggle then Login / Get Access */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginLeft: '12px' }}>
               <ThemeToggle />
               {!loading && (isAdmin || isUser) ? (
                 <button
@@ -97,7 +97,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile: theme toggle + hamburger */}
-          <div className="nav-mobile-actions">
+          <div className="nav-mobile-actions" style={{ gap: '10px' }}>
             <ThemeToggle />
             <button
               className="hamburger-btn"
@@ -139,10 +139,10 @@ export default function Navbar() {
           {isAdmin && (
             <>
               <Link href="/admin/dashboard" className="mobile-nav-link" style={{ color: '#f59e0b', fontWeight: 700 }}>
-                🔑 Admin Panel
+                Admin Panel
               </Link>
               <Link href="/dashboard" className="mobile-nav-link" style={{ color: 'var(--positive)' }}>
-                👤 My Dashboard
+                My Dashboard
               </Link>
             </>
           )}
@@ -150,7 +150,7 @@ export default function Navbar() {
           {/* User dashboard mobile link */}
           {isUser && !isAdmin && (
             <Link href="/dashboard" className="mobile-nav-link" style={{ color: 'var(--positive)' }}>
-              👤 My Account
+              My Account
             </Link>
           )}
 
@@ -159,29 +159,18 @@ export default function Navbar() {
             <button
               onClick={logout}
               className="mobile-nav-link"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'var(--text-secondary)' }}
+              style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', color: 'var(--text-secondary)' }}
             >
               Log Out
             </button>
           ) : (
-            <>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Link href="/login" className="mobile-nav-link">Log In</Link>
-              <Link href="/signup" className="btn-primary-large" style={{ marginTop: '8px', textAlign: 'center', display: 'block' }}>
-                Get Access →
-              </Link>
-            </>
+              <Link href="/signup" className="btn-primary-large" style={{ textAlign: 'center' }}>Get Access →</Link>
+            </div>
           )}
         </div>
       </div>
-
-      {/* Overlay */}
-      {menuOpen && (
-        <div
-          className="mobile-overlay"
-          onClick={() => setMenuOpen(false)}
-          aria-hidden="true"
-        />
-      )}
     </>
   );
 }
