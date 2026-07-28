@@ -22,8 +22,11 @@ ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 COPY package.json ./
 RUN npm install
 
-# Copy code
+# Copy code & schema
 COPY . .
+
+# Generate Prisma Client for PostgreSQL
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 # Build TypeScript
 RUN npm run build
