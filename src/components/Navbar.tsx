@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
 import { useAuth } from '@/context/AuthContext';
@@ -33,14 +34,26 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <>
       <nav className="navbar" role="navigation" aria-label="Main navigation">
         <div className="nav-inner" style={{ justifyContent: 'space-between' }}>
-          {/* Logo — Pushed to far top-left */}
-          <Link href="/" className="nav-logo" aria-label="BetFactor home" style={{ marginRight: 'auto' }}>
-            <span className="logo-bet">Bet</span>
-            <span className="logo-factor">Factor</span>
+          {/* Logo — Pushed to far top-left with Favicon Icon */}
+          <Link href="/" className="nav-logo" aria-label="BetFactor home" style={{ marginRight: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Image
+              src="/icon.svg"
+              alt="BetFactor icon"
+              width={32}
+              height={32}
+              style={{ borderRadius: '8px', objectFit: 'contain' }}
+              priority
+            />
+            <div>
+              <span className="logo-bet">Bet</span>
+              <span className="logo-factor">Factor</span>
+            </div>
           </Link>
 
           {/* Desktop nav links */}
@@ -114,6 +127,15 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Backdrop overlay */}
+      {menuOpen && (
+        <div
+          className="mobile-overlay"
+          onClick={closeMenu}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Mobile Drawer */}
       <div
         id="mobile-menu"
@@ -128,6 +150,7 @@ export default function Navbar() {
               key={item.href}
               href={item.href}
               className="mobile-nav-link"
+              onClick={closeMenu}
               style={item.accent ? { color: 'var(--accent)' } : undefined}
               aria-current={pathname === item.href ? 'page' : undefined}
             >
@@ -138,10 +161,10 @@ export default function Navbar() {
           {/* Admin-only mobile links */}
           {isAdmin && (
             <>
-              <Link href="/admin/dashboard" className="mobile-nav-link" style={{ color: '#f59e0b', fontWeight: 700 }}>
+              <Link href="/admin/dashboard" className="mobile-nav-link" onClick={closeMenu} style={{ color: '#f59e0b', fontWeight: 700 }}>
                 Admin Panel
               </Link>
-              <Link href="/dashboard" className="mobile-nav-link" style={{ color: 'var(--positive)' }}>
+              <Link href="/dashboard" className="mobile-nav-link" onClick={closeMenu} style={{ color: 'var(--positive)' }}>
                 My Dashboard
               </Link>
             </>
@@ -149,7 +172,7 @@ export default function Navbar() {
 
           {/* User dashboard mobile link */}
           {isUser && !isAdmin && (
-            <Link href="/dashboard" className="mobile-nav-link" style={{ color: 'var(--positive)' }}>
+            <Link href="/dashboard" className="mobile-nav-link" onClick={closeMenu} style={{ color: 'var(--positive)' }}>
               My Account
             </Link>
           )}
@@ -157,7 +180,7 @@ export default function Navbar() {
           <div className="mobile-drawer-divider" />
           {!loading && (isAdmin || isUser) ? (
             <button
-              onClick={logout}
+              onClick={() => { logout(); closeMenu(); }}
               className="mobile-nav-link"
               style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', color: 'var(--text-secondary)' }}
             >
@@ -165,8 +188,8 @@ export default function Navbar() {
             </button>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Link href="/login" className="mobile-nav-link">Log In</Link>
-              <Link href="/signup" className="btn-primary-large" style={{ textAlign: 'center' }}>Get Access →</Link>
+              <Link href="/login" className="mobile-nav-link" onClick={closeMenu}>Log In</Link>
+              <Link href="/signup" className="btn-primary-large" onClick={closeMenu} style={{ textAlign: 'center' }}>Get Access →</Link>
             </div>
           )}
         </div>
