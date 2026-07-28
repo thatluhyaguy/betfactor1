@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="16" fill="#FB2056" />
+  <!-- Lightning bolt / B icon in clean white and dark slate -->
+  <path d="M36 8L16 36H32L28 56L48 28H32L36 8Z" fill="#FFFFFF" />
+</svg>
