@@ -17,6 +17,7 @@ model User {
   savedMatches     SavedMatch[]
   calculatorHist   CalculatorHistory[]
   subscriptions    Subscription[]
+  alertSubscription AlertSubscription?
 }
 
 model SavedMatch {
@@ -92,3 +93,38 @@ model ArbReport {
 
   @@index([matchSlug])
 }
+
+model Match {
+  id        String      @id @default(uuid())
+  slug      String      @unique
+  homeTeam  String
+  awayTeam  String
+  league    String
+  kickoff   DateTime
+  odds      MatchOdds[]
+  updatedAt DateTime    @updatedAt
+  createdAt DateTime    @default(now())
+}
+
+model MatchOdds {
+  id        String   @id @default(uuid())
+  matchId   String
+  match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  bookmaker String
+  homeOdds  Float
+  drawOdds  Float
+  awayOdds  Float
+  updatedAt DateTime @updatedAt
+
+  @@unique([matchId, bookmaker])
+}
+
+model AlertSubscription {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  enabled   Boolean  @default(false)
+  minMargin Float    @default(0.01) // only alert above this margin, e.g. 1%
+  createdAt DateTime @default(now())
+}
+
