@@ -150,7 +150,7 @@ button { font-family: inherit; }
 
 @media (max-width: 640px) {
   .nav-inner {
-    padding: 0 50px;
+    padding: 0 20px;
   }
 }
 
@@ -162,6 +162,17 @@ button { font-family: inherit; }
   align-items: center;
   gap: 10px;
   transition: opacity 0.2s;
+}
+
+@media (max-width: 640px) {
+  .nav-logo {
+    font-size: 1.25rem;
+    gap: 7px;
+  }
+  .nav-logo img {
+    width: 22px !important;
+    height: 22px !important;
+  }
 }
 .nav-logo:hover { opacity: 0.85; color: inherit; }
 
@@ -3029,6 +3040,57 @@ button { font-family: inherit; }
   }
 }
 
+/* ── Mobile hero: single column + character as decorative overlay ── */
+@media (max-width: 480px) {
+  .hero-breakout {
+    padding: 40px 0 0;
+    overflow: hidden;
+  }
+  .hero-breakout-grid {
+    display: block;
+    position: relative;
+    min-height: 420px;
+  }
+  .hero-text-col {
+    padding-bottom: 160px; /* leave room for character underneath */
+    position: relative;
+    z-index: 5;
+  }
+  .hero-breakout-title {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+  .hero-breakout-sub {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+  .hero-illustration-col {
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    min-height: unset;
+    width: 220px;
+    z-index: 3;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .character-crop-box {
+    max-width: 200px;
+    margin-bottom: 0;
+  }
+  .breakout-character-img {
+    width: 100%;
+    opacity: 0.85;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.3));
+  }
+  .hero-ambient-glow {
+    display: none;
+  }
+  .hero-trust-bar {
+    display: none;
+  }
+}
+
 /* ============================================================
    ARB FEED COMPONENTS
    ============================================================ */
@@ -4030,6 +4092,12 @@ button { font-family: inherit; }
   .sb-strategy-buttons { grid-template-columns: 1fr; }
 }
 
+/* Page root: allows workspace to go edge-to-edge */
+.bb-page-root {
+  width: 100%;
+  min-height: calc(100vh - var(--nav-h));
+}
+
 /* ── BETBURGER WORKSPACE STYLING (MATCHING SCREENSHOTS) ── */
 .bb-workspace {
   display: flex;
@@ -4039,7 +4107,20 @@ button { font-family: inherit; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 12px;
+  margin: 24px 150px;
+}
+
+@media (max-width: 1024px) {
+  .bb-workspace { margin: 16px 100px; }
+}
+
+@media (max-width: 768px) {
+  .bb-workspace {
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
 }
 
 /* Top Banner */
@@ -4333,10 +4414,157 @@ button { font-family: inherit; }
   font-size: 0.9rem;
 }
 
-/* Responsive */
+/* ── BetBurger Workspace — Mobile-First Responsive ── */
+
+/* Tablet: hide right panel, sidebar shrinks */
 @media (max-width: 1100px) {
   .bb-main-grid {
+    grid-template-columns: 200px 1fr;
+  }
+  .bb-calculator-panel {
+    display: none;
+  }
+}
+
+/* Mobile: full rethink */
+@media (max-width: 768px) {
+  /* Page wrapper: remove all extra container padding */
+  .static-page { padding: 0 !important; }
+
+  /* Workspace fills screen edge-to-edge */
+  .bb-workspace {
+    border-radius: 0;
+  }
+
+  /* Top banner stays full width */
+  .bb-top-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8rem;
+    padding: 12px 16px;
+  }
+  .bb-banner-cta {
+    font-size: 0.8rem;
+  }
+
+  /* Switch to single-column stacked layout */
+  .bb-main-grid {
     grid-template-columns: 1fr;
+    min-height: unset;
+  }
+
+  /* Sidebar: become a horizontal scrolling pill bar at top */
+  .bb-sidebar {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 12px 16px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: #1C2541;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .bb-sidebar::-webkit-scrollbar { display: none; }
+
+  .bb-sidebar-header {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    border-bottom: none;
+    padding-bottom: 0;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  /* Each control group becomes inline compact pill */
+  .bb-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 6px 14px;
+  }
+  .bb-group-label {
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+  .bb-radio-group {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .bb-checkbox-list {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .bb-select {
+    font-size: 0.78rem;
+    padding: 4px 8px;
+    max-width: 130px;
+  }
+  .bb-radio, .bb-checkbox {
+    font-size: 0.78rem;
+  }
+
+  /* Center feed goes full width */
+  .bb-feed-column {
+    border-right: none;
+    min-height: 50vh;
+  }
+  .bb-feed-header {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+  .bb-feed-list {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* Arb cards: more compact, remove heavy 4-col grid */
+  .bb-arb-card {
+    padding: 10px 14px;
+  }
+  .bb-outcome-row {
+    grid-template-columns: 80px 1fr auto;
+    font-size: 0.75rem;
+    gap: 4px;
+  }
+  .bb-teams {
+    display: none; /* team name already in header — hide duplicate */
+  }
+  .bb-card-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Calculator panel: show below feed as accordion-style widget */
+  .bb-calculator-panel {
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .bb-market-tabs {
+    gap: 0;
+  }
+  .bb-tab {
+    padding: 8px 10px;
+    font-size: 0.72rem;
+  }
+  .bb-calc-widget {
+    padding: 14px;
+    gap: 12px;
+  }
+  .bb-calc-table {
+    font-size: 0.75rem;
+    display: block;
+    overflow-x: auto;
+  }
+  .bb-calc-table th, .bb-calc-table td {
+    padding: 6px;
+    white-space: nowrap;
   }
 }
 

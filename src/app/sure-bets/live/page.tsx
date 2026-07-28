@@ -9,10 +9,8 @@ export const metadata: Metadata = {
 
 export default function LiveSurebetsPage() {
   return (
-    <div className="static-page" style={{ padding: '24px 0' }}>
-      <div className="container full-width-container">
-        <BetBurgerWorkspace initialType="live" />
-      </div>
+    <div className="bb-page-root">
+      <BetBurgerWorkspace initialType="live" />
     </div>
   );
 }
