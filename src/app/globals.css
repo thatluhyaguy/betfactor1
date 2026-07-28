@@ -3831,3 +3831,314 @@ button { font-family: inherit; }
   .sb-results-grid { grid-template-columns: 1fr; }
   .sb-strategy-buttons { grid-template-columns: 1fr; }
 }
+
+/* ── BETBURGER WORKSPACE STYLING (MATCHING SCREENSHOTS) ── */
+.bb-workspace {
+  display: flex;
+  flex-direction: column;
+  background: #0B132B;
+  color: #E2E8F0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 12px;
+}
+
+/* Top Banner */
+.bb-top-banner {
+  background: linear-gradient(90deg, #E11D48 0%, #BE123C 100%);
+  color: white;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bb-banner-cta {
+  color: white;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+/* Main 3-Pane Layout */
+.bb-main-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr 380px;
+  min-height: 700px;
+}
+
+/* Left Sidebar */
+.bb-sidebar {
+  background: #1C2541;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 0.85rem;
+}
+.bb-sidebar-header {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #38BDF8;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.bb-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bb-group-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+.bb-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bb-radio, .bb-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #CBD5E1;
+}
+.bb-select {
+  background: #0B132B;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  outline: none;
+}
+.bb-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Center Feed */
+.bb-feed-column {
+  background: #0F172A;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+.bb-feed-header {
+  padding: 14px 20px;
+  background: #1E293B;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bb-feed-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: white;
+}
+.bb-feed-count {
+  font-size: 0.78rem;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.bb-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  max-height: 700px;
+}
+.bb-arb-card {
+  background: #1E293B;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.bb-arb-card:hover {
+  background: #2D3748;
+}
+.bb-arb-card.selected {
+  background: #1E3A8A;
+  border-left: 4px solid #38BDF8;
+}
+.bb-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.bb-margin-badge {
+  background: #D97706;
+  color: white;
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.bb-sport-tag {
+  font-size: 0.75rem;
+  color: #94A3B8;
+  font-weight: 600;
+}
+.bb-age-tag {
+  font-size: 0.75rem;
+  color: #64748B;
+}
+
+.bb-outcomes-table {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bb-outcome-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 90px 70px;
+  font-size: 0.8rem;
+  align-items: center;
+  gap: 8px;
+}
+.bb-bookie-name {
+  color: #38BDF8;
+  font-weight: 700;
+}
+.bb-teams {
+  color: #94A3B8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bb-pick-label {
+  color: #E2E8F0;
+}
+.bb-odd-val {
+  color: #4ADE80;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* Right Calculator Panel */
+.bb-calculator-panel {
+  background: #1C2541;
+  display: flex;
+  flex-direction: column;
+}
+.bb-market-tabs {
+  display: flex;
+  background: #0B132B;
+  overflow-x: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.bb-tab {
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.bb-tab.active {
+  color: #38BDF8;
+  border-bottom: 2px solid #38BDF8;
+  background: rgba(56, 189, 248, 0.08);
+}
+.bb-calc-widget {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bb-calc-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: white;
+}
+.bb-match-summary {
+  font-size: 0.875rem;
+  color: #E2E8F0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.bb-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+.bb-input-group label {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  font-weight: 600;
+}
+.bb-stake-input {
+  background: #0B132B;
+  border: 1px solid #38BDF8;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  outline: none;
+}
+
+.bb-calc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 0.8rem;
+}
+.bb-calc-table th, .bb-calc-table td {
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.bb-calc-table th {
+  color: #64748B;
+  text-align: left;
+}
+
+.bb-calc-totals {
+  background: #0B132B;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+.bb-tot-row {
+  display: flex;
+  justify-content: space-between;
+}
+.bb-tot-row.highlight {
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  margin-top: 4px;
+}
+
+.bb-loading, .bb-empty, .bb-calc-placeholder {
+  padding: 40px 20px;
+  text-align: center;
+  color: #94A3B8;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .bb-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

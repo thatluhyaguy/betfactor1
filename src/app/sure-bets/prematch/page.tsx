@@ -1,41 +1,17 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import ArbFeed from '@/components/surebets/ArbFeed';
+import BetBurgerWorkspace from '@/components/surebets/BetBurgerWorkspace';
 
 export const metadata: Metadata = {
-  title: 'Prematch Surebets — Scanned Bookmaker Odds | BetFactor Kenya',
+  title: 'Prematch Surebets Scanner — Bookmaker Odds | BetFactor Kenya',
   description:
-    'Scan prematch arbitrage opportunities across SportPesa, Betika, and Odibets. Calculate guaranteed margins before kickoff.',
+    'Professional prematch arbitrage scanner across SportPesa, Betika, and Odibets. Real-time updates with interactive stake calculator.',
 };
 
 export default function PrematchSurebetsPage() {
   return (
-    <div className="static-page">
+    <div className="static-page" style={{ padding: '24px 0' }}>
       <div className="container full-width-container">
-        {/* Navigation Sub-Tabs */}
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
-          <Link href="/sure-bets" className="sb-btn sb-btn-outline" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            📖 How Surebets Work
-          </Link>
-          <Link href="/sure-bets/prematch" className="sb-btn sb-btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            ⚽ Prematch Surebets
-          </Link>
-          <Link href="/sure-bets/live" className="sb-btn sb-btn-outline" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            ⚡ Live In-Play Surebets
-          </Link>
-        </div>
-
-        <div className="page-header" style={{ maxWidth: '860px' }}>
-          <span className="page-tag">PREMATCH SCANNER</span>
-          <h1 className="page-title">Prematch Surebets &amp; Odds Arbitrage</h1>
-          <p className="page-lead">
-            Prematch opportunities appear hours or days before kickoff. Odds move predictably, giving you time to log in to bookmaker accounts and place stakes.
-          </p>
-        </div>
-
-        <section className="arb-feed-section" aria-label="Prematch arbitrage opportunities">
-          <ArbFeed />
-        </section>
+        <BetBurgerWorkspace initialType="prematch" />
       </div>
     </div>
   );

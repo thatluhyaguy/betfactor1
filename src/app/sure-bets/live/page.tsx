@@ -1,41 +1,17 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import ArbFeed from '@/components/surebets/ArbFeed';
+import BetBurgerWorkspace from '@/components/surebets/BetBurgerWorkspace';
 
 export const metadata: Metadata = {
-  title: 'Live Scanner — Active In-Play Surebets | BetFactor Kenya',
+  title: 'Live Surebets Scanner — Active In-Play Odds | BetFactor Kenya',
   description:
-    'Live arbitrage scanner feed updating every 25 seconds across SportPesa, Betika, and Odibets.',
+    'Professional live arbitrage scanner across SportPesa, Betika, and Odibets. Real-time updates every 25s with interactive stake calculator.',
 };
 
 export default function LiveSurebetsPage() {
   return (
-    <div className="static-page">
+    <div className="static-page" style={{ padding: '24px 0' }}>
       <div className="container full-width-container">
-        {/* Navigation Sub-Tabs */}
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
-          <Link href="/sure-bets" className="sb-btn sb-btn-outline" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            📖 How Surebets Work
-          </Link>
-          <Link href="/sure-bets/prematch" className="sb-btn sb-btn-outline" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            ⚽ Prematch Surebets
-          </Link>
-          <Link href="/sure-bets/live" className="sb-btn sb-btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            ⚡ Live In-Play Surebets
-          </Link>
-        </div>
-
-        <div className="page-header" style={{ maxWidth: '860px' }}>
-          <span className="page-tag">LIVE SCANNER FEED</span>
-          <h1 className="page-title">Active Live In-Play Surebets</h1>
-          <p className="page-lead">
-            Real-time feed updating every 25 seconds. Place calculated stakes across bookmakers to lock in guaranteed profit regardless of match outcome.
-          </p>
-        </div>
-
-        <section className="arb-feed-section" aria-label="Live arbitrage opportunities">
-          <ArbFeed />
-        </section>
+        <BetBurgerWorkspace initialType="live" />
       </div>
     </div>
   );
