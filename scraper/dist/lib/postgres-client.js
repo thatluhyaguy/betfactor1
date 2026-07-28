@@ -1,12 +1,29 @@
 "use strict";
+/**
+ * Postgres client — gracefully optional.
+ *
+ * If @prisma/client fails to initialize (e.g. prisma generate wasn't run,
+ * or DATABASE_URL is missing), the scraper keeps running using Redis only.
+ * All functions below are no-ops when Prisma is unavailable.
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveOddsSnapshot = saveOddsSnapshot;
 exports.saveArbitrageOpportunity = saveArbitrageOpportunity;
 exports.expireArbitrageOpportunity = expireArbitrageOpportunity;
 exports.getActiveArbitrageFromDB = getActiveArbitrageFromDB;
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
+// Safely try to load PrismaClient — don't crash if it fails
+let prisma = null;
+try {
+    const { PrismaClient } = require('@prisma/client');
+    prisma = new PrismaClient();
+    console.log('[Postgres] PrismaClient initialized.');
+}
+catch (err) {
+    console.warn('[Postgres] PrismaClient unavailable — running Redis-only mode:', err.message);
+}
 async function saveOddsSnapshot(odds) {
+    if (!prisma)
+        return;
     try {
         await prisma.oddsSnapshot.create({
             data: {
@@ -20,20 +37,17 @@ async function saveOddsSnapshot(odds) {
         });
     }
     catch (err) {
-        console.error(`[Postgres] Failed to save odds snapshot for ${odds.matchSlug} (${odds.bookmaker}):`, err);
+        console.error(`[Postgres] Failed to save odds snapshot for ${odds.matchSlug}:`, err);
     }
 }
 async function saveArbitrageOpportunity(arb) {
+    if (!prisma)
+        return;
     try {
-        // Check if an unexpired record already exists for this match
         const existing = await prisma.arbitrageOpportunity.findFirst({
-            where: {
-                matchSlug: arb.matchSlug,
-                expiredAt: null,
-            },
+            where: { matchSlug: arb.matchSlug, expiredAt: null },
         });
         if (existing) {
-            // Update margin & prices
             await prisma.arbitrageOpportunity.update({
                 where: { id: existing.id },
                 data: {
@@ -65,34 +79,29 @@ async function saveArbitrageOpportunity(arb) {
         }
     }
     catch (err) {
-        console.error(`[Postgres] Failed to save arbitrage opportunity for ${arb.matchSlug}:`, err);
+        console.error(`[Postgres] Failed to save arb for ${arb.matchSlug}:`, err);
     }
 }
 async function expireArbitrageOpportunity(matchSlug) {
+    if (!prisma)
+        return;
     try {
         await prisma.arbitrageOpportunity.updateMany({
-            where: {
-                matchSlug,
-                expiredAt: null,
-            },
-            data: {
-                expiredAt: new Date(),
-            },
+            where: { matchSlug, expiredAt: null },
+            data: { expiredAt: new Date() },
         });
     }
     catch (err) {
-        console.error(`[Postgres] Failed to expire arbitrage opportunity for ${matchSlug}:`, err);
+        console.error(`[Postgres] Failed to expire arb for ${matchSlug}:`, err);
     }
 }
 async function getActiveArbitrageFromDB() {
+    if (!prisma)
+        return [];
     try {
         return await prisma.arbitrageOpportunity.findMany({
-            where: {
-                expiredAt: null,
-            },
-            orderBy: {
-                margin: 'desc',
-            },
+            where: { expiredAt: null },
+            orderBy: { margin: 'desc' },
         });
     }
     catch (err) {
