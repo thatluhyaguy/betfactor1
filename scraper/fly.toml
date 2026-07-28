@@ -1,46 +1,23 @@
 # fly.toml — Fly.io configuration for the BetFactor scraper
-# Docs: https://fly.io/docs/reference/configuration/
-#
-# Replace "betfactor-scraper" with your actual Fly.io app name
-# (whatever you chose when you ran `fly launch`)
-
 app = "betfactor-scraper"
-primary_region = "jnb"   # Johannesburg — closest Fly.io region to Kenya
+primary_region = "jnb"
 
 [build]
-  # Uses the Dockerfile in this directory
   dockerfile = "Dockerfile"
 
 [env]
-  # Non-secret runtime config
   SCRAPE_INTERVAL_MS = "90000"
   NODE_ENV = "production"
-
-# Secrets (DATABASE_URL, REDIS_URL) are set via:
-#   fly secrets set DATABASE_URL="..." REDIS_URL="..."
-# Do NOT put secrets in this file.
 
 [processes]
   app = "node dist/index.js"
 
 [[services]]
-  # This is a worker process — no HTTP port needed.
-  # Fly.io keeps it alive and restarts it on crash.
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
 
-[checks]
-  # Fly.io process health check — keeps the machine alive
-  [checks.alive]
-    type = "cmd"
-    command = ["node", "-e", "process.exit(0)"]
-    interval = "60s"
-    timeout = "10s"
-    grace_period = "30s"
-
 [[vm]]
-  # Shared CPU — free tier eligible
   cpu_kind = "shared"
   cpus = 1
   memory_mb = 512
