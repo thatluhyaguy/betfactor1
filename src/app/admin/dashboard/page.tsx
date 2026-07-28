@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import useSWR from 'swr';
 import { useAuth } from '@/context/AuthContext';
 
@@ -187,6 +188,9 @@ export default function AdminDashboardPage() {
           </div>
 
           <div style={{ display: 'flex', gap: '12px' }}>
+            <Link href="/dashboard" className="sb-btn sb-btn-primary" style={{ fontSize: '0.85rem' }}>
+              👤 View Bettor Dashboard →
+            </Link>
             <button className="sb-btn sb-btn-outline" onClick={logout} style={{ borderColor: '#f59e0b', color: '#f59e0b' }}>
               🔒 Admin Log Out
             </button>

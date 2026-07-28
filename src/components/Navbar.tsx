@@ -58,14 +58,19 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Admin-only link */}
+            {/* Admin-only links: Admin Panel & View as Bettor Dashboard */}
             {isAdmin && (
-              <Link href="/admin/dashboard" className="nav-link" style={{ color: '#f59e0b', fontWeight: 700 }}>
-                🔑 Admin
-              </Link>
+              <>
+                <Link href="/admin/dashboard" className="nav-link" style={{ color: '#f59e0b', fontWeight: 700 }}>
+                  🔑 Admin Panel
+                </Link>
+                <Link href="/dashboard" className="nav-link" style={{ color: 'var(--positive)', fontWeight: 600 }}>
+                  👤 Bettor Dashboard
+                </Link>
+              </>
             )}
 
-            {/* Logged-in user dashboard */}
+            {/* Regular logged-in user dashboard */}
             {isUser && !isAdmin && (
               <Link href="/dashboard" className="nav-link" style={{ color: 'var(--positive)', fontWeight: 700 }}>
                 👤 My Account
@@ -130,11 +135,16 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {/* Admin-only mobile link */}
+          {/* Admin-only mobile links */}
           {isAdmin && (
-            <Link href="/admin/dashboard" className="mobile-nav-link" style={{ color: '#f59e0b' }}>
-              🔑 Admin Dashboard
-            </Link>
+            <>
+              <Link href="/admin/dashboard" className="mobile-nav-link" style={{ color: '#f59e0b', fontWeight: 700 }}>
+                🔑 Admin Panel
+              </Link>
+              <Link href="/dashboard" className="mobile-nav-link" style={{ color: 'var(--positive)' }}>
+                👤 Bettor Dashboard
+              </Link>
+            </>
           )}
 
           {/* User dashboard mobile link */}
