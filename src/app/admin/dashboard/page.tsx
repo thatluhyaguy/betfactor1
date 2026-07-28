@@ -189,7 +189,7 @@ export default function AdminDashboardPage() {
 
           <div style={{ display: 'flex', gap: '12px' }}>
             <Link href="/dashboard" className="sb-btn sb-btn-primary" style={{ fontSize: '0.85rem' }}>
-              👤 View Bettor Dashboard →
+              👤 View User Dashboard →
             </Link>
             <button className="sb-btn sb-btn-outline" onClick={logout} style={{ borderColor: '#f59e0b', color: '#f59e0b' }}>
               🔒 Admin Log Out

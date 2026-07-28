@@ -24,9 +24,25 @@ async function getUserFromSession() {
   return null;
 }
 
+/** Extract a friendly display name from email or phone */
+function getDisplayName(emailOrPhone: string, tier: string): string {
+  if (tier === 'ADMIN') return 'Admin';
+  // Email: take the part before @, capitalize first letter
+  if (emailOrPhone.includes('@')) {
+    const localPart = emailOrPhone.split('@')[0];
+    // Handle dot/underscore/dash separators — take only the first segment
+    const firstName = localPart.split(/[._-]/)[0];
+    return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+  }
+  // Phone number — no name available, return empty so we use the fallback greeting
+  return '';
+}
+
 export default async function DashboardPage() {
   const user = await getUserFromSession();
   if (!user) redirect('/login');
+
+  const displayName = getDisplayName(user.emailOrPhone, user.tier);
 
   // CRITICAL: every query below is scoped to user.id — this page shows
   // financial figures (stakes, payouts), so row-level scoping isn't optional
@@ -46,9 +62,17 @@ export default async function DashboardPage() {
         {/* Header */}
         <div className="page-header" style={{ marginBottom: '32px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div>
-            <span className="page-tag">USER DASHBOARD</span>
-            <h1 className="page-title">Welcome back, {user.emailOrPhone}</h1>
-            <p className="page-lead">Track your saved odds, calculate net payouts, and manage your subscription.</p>
+            <span className="page-tag">{user.tier === 'ADMIN' ? 'ADMIN VIEW' : 'MY DASHBOARD'}</span>
+            <h1 className="page-title">
+              {displayName
+                ? `Welcome back, ${displayName}! 👋`
+                : 'Welcome back! 👋'}
+            </h1>
+            <p className="page-lead">
+              {user.tier === 'ADMIN'
+                ? 'You are viewing the dashboard as Admin. All member features are unlocked.'
+                : 'Track your saved odds, calculate net payouts, and manage your subscription.'}
+            </p>
           </div>
 
           <div style={{ display: 'flex', gap: '12px' }}>

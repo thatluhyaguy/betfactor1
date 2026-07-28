@@ -65,7 +65,7 @@ export default function Navbar() {
                   🔑 Admin Panel
                 </Link>
                 <Link href="/dashboard" className="nav-link" style={{ color: 'var(--positive)', fontWeight: 600 }}>
-                  👤 Bettor Dashboard
+                  👤 My Dashboard
                 </Link>
               </>
             )}
@@ -142,7 +142,7 @@ export default function Navbar() {
                 🔑 Admin Panel
               </Link>
               <Link href="/dashboard" className="mobile-nav-link" style={{ color: 'var(--positive)' }}>
-                👤 Bettor Dashboard
+                👤 My Dashboard
               </Link>
             </>
           )}
