@@ -52,9 +52,9 @@ export default function BetBurgerWorkspace({ initialType = 'live' }: WorkspacePr
   const filteredOpportunities = useMemo(() => {
     let list = [...rawOpportunities];
 
-    // Trial mode: non-logged-in guests only see arbs ≤ 1%
+    // Trial mode: non-logged-in guests see arbs <= 1.5%
     if (!isFullAccess) {
-      list = list.filter((a) => a.margin <= 1.0);
+      list = list.filter((a) => a.margin <= 1.5);
     }
 
     if (selectedSport !== 'all') {
