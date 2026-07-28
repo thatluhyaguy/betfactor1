@@ -1,12 +1,8 @@
 /**
  * Redis service for the Next.js server runtime.
- *
- * Shared between API routes. Uses ioredis when REDIS_URL is set,
- * falls back to an in-memory Map with TTL so the app works locally
- * without a Redis instance.
+ * Uses ioredis when REDIS_URL is set, falls back to in-memory Map with TTL.
  */
 
-// In-memory fallback store
 const memoryStore = new Map<string, { data: string; expiresAt: number }>();
 
 class RedisService {
@@ -21,6 +17,7 @@ class RedisService {
         this.client = new Redis(process.env.REDIS_URL, {
           maxRetriesPerRequest: 1,
           lazyConnect: true,
+          tls: process.env.REDIS_URL.startsWith('rediss://') ? {} : undefined,
         });
         this.client.connect().catch(() => {
           console.warn('[Redis] Connection failed — using in-memory fallback');
@@ -39,9 +36,7 @@ class RedisService {
 
   async get(key: string): Promise<string | null> {
     if (this.client) {
-      try {
-        return await this.client.get(key);
-      } catch { /* fall through */ }
+      try { return await this.client.get(key); } catch { /* fall through */ }
     }
     const item = memoryStore.get(key);
     if (!item) return null;
@@ -51,12 +46,9 @@ class RedisService {
 
   async keys(pattern: string): Promise<string[]> {
     if (this.client) {
-      try {
-        return await this.client.keys(pattern);
-      } catch { /* fall through */ }
+      try { return await this.client.keys(pattern); } catch { /* fall through */ }
     }
-    // In-memory fallback: simple prefix/glob match
-    const prefix = pattern.replace('*', '');
+    const prefix = pattern.replace(/\*/g, '');
     return Array.from(memoryStore.keys()).filter((k) => k.startsWith(prefix));
   }
 
@@ -72,15 +64,12 @@ class RedisService {
     return results;
   }
 
+  /** Dynamically scan all arb:active:* keys — works for any match, not just a hardcoded list */
   async getActiveArbitrages(): Promise<any[]> {
-    const slugs = [
-      'arsenal-vs-chelsea', 'man-city-vs-liverpool', 'real-madrid-vs-barcelona',
-      'man-united-vs-tottenham', 'psg-vs-bayern-munich', 'chelsea-vs-man-united',
-      'liverpool-vs-arsenal',
-    ];
+    const allKeys = await this.keys('arb:active:*');
     const results: any[] = [];
-    for (const slug of slugs) {
-      const raw = await this.get(`arb:active:${slug}`);
+    for (const key of allKeys) {
+      const raw = await this.get(key);
       if (raw) {
         try { results.push(JSON.parse(raw)); } catch { /* skip */ }
       }
