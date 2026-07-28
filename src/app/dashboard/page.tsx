@@ -44,17 +44,32 @@ export default async function DashboardPage() {
 
   const displayName = getDisplayName(user.emailOrPhone, user.tier);
 
-  // CRITICAL: every query below is scoped to user.id — this page shows
-  // financial figures (stakes, payouts), so row-level scoping isn't optional
-  const [savedMatches, calculatorHistory, alertSub] = await Promise.all([
-    prisma.savedMatch.findMany({ where: { userId: user.id }, take: 10 }),
-    prisma.calculatorHistory.findMany({
-      where: { userId: user.id },
-      orderBy: { createdAt: 'desc' },
-      take: 10,
-    }),
-    prisma.alertSubscription.findUnique({ where: { userId: user.id } }),
-  ]);
+  // Admin uses a synthetic id of 'admin' — skip real DB queries to avoid
+  // invalid foreign-key lookups and missing-table crashes on production.
+  const isAdmin = user.tier === 'ADMIN';
+
+  // All queries wrapped in try/catch so a missing table on production
+  // (e.g. AlertSubscription not yet migrated) degrades to empty data
+  // instead of a 500 crash.
+  const savedMatches = isAdmin ? [] : await (async () => {
+    try { return await prisma.savedMatch.findMany({ where: { userId: user.id }, take: 10 }); }
+    catch { return []; }
+  })();
+
+  const calculatorHistory = isAdmin ? [] : await (async () => {
+    try {
+      return await prisma.calculatorHistory.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+      });
+    } catch { return []; }
+  })();
+
+  const alertSub = isAdmin ? null : await (async () => {
+    try { return await prisma.alertSubscription.findUnique({ where: { userId: user.id } }); }
+    catch { return null; }
+  })();
 
   return (
     <div className="static-page">
