@@ -8,6 +8,7 @@
     "postinstall": "prisma generate --schema=./prisma/schema.prisma || true",
     "build": "npx playwright install chromium && tsc --project tsconfig.json",
     "start": "node dist/index.js",
+    "scrape:cron": "ts-node --project tsconfig.json local-scrape.ts",
     "dev": "ts-node --project tsconfig.json index.ts",
     "clean": "rimraf dist"
   },

@@ -215,7 +215,44 @@ export async function GET() {
       );
     }
 
-    // ── 3. Both empty → serve seed data so the page is never blank ─────────
+    // ── 3. JSON file fallback (written by local/cPanel cron scrape) ─────────
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const matchesFilePath = path.join(process.cwd(), 'src/data/matches.json');
+      if (fs.existsSync(matchesFilePath)) {
+        const rawContent = fs.readFileSync(matchesFilePath, 'utf-8');
+        const parsed = JSON.parse(rawContent);
+        if (parsed?.arbitrageOpportunities && Array.isArray(parsed.arbitrageOpportunities) && parsed.arbitrageOpportunities.length > 0) {
+          const shaped = parsed.arbitrageOpportunities.map((a: any): ArbitrageOpportunityItem => {
+            const { homeTeam, awayTeam, league } = slugToTeams(a.matchSlug);
+            return {
+              matchSlug: a.matchSlug,
+              homeTeam: a.homeTeam ?? homeTeam,
+              awayTeam: a.awayTeam ?? awayTeam,
+              league: a.league ?? league,
+              margin: normMargin(a.margin),
+              bestHomeBookmaker: a.bestHomeBookmaker,
+              bestHomeOdds: Number(a.bestHomeOdds),
+              bestDrawBookmaker: a.bestDrawBookmaker,
+              bestDrawOdds: Number(a.bestDrawOdds),
+              bestAwayBookmaker: a.bestAwayBookmaker,
+              bestAwayOdds: Number(a.bestAwayOdds),
+              detectedAt: a.detectedAt ?? parsed.lastUpdated ?? new Date().toISOString(),
+            };
+          }).sort((a: any, b: any) => b.margin - a.margin);
+
+          return NextResponse.json(
+            { dataSource: 'json_file', lastCheckedAt: parsed.lastUpdated ?? new Date().toISOString(), opportunities: shaped },
+            { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' } }
+          );
+        }
+      }
+    } catch (fileErr: any) {
+      console.warn('[API] matches.json fallback warning:', fileErr.message);
+    }
+
+    // ── 4. Fallback to seed data so the page is never blank ─────────────────
     const seed = getSeedOpportunities();
     return NextResponse.json(
       { dataSource: 'seed', lastCheckedAt: new Date().toISOString(), opportunities: seed },
